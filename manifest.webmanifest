@@ -1,0 +1,11 @@
+{
+  "name": "ROAD ON 사회 변화 탐정단",
+  "short_name": "사회 변화 탐정단",
+  "description": "신문, 통계, 영상 자료를 활용해 사회 변화를 탐구하는 초등학생용 학습 앱",
+  "lang": "ko-KR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#dce8e1",
+  "theme_color": "#113d3a"
+}

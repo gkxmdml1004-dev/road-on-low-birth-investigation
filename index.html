@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#113d3a">
+  <title>ROAD ON 사회 변화 탐정단</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <style>
+    :root{--ink:#163b38;--paper:#fffaf0;--cream:#f5ecd8;--orange:#ef7b45;--yellow:#f6c453;--mint:#7db9a7;--blue:#4d7ea8;--red:#c94c4c;--line:#d4c6a8;--shadow:0 16px 40px rgba(44,39,28,.16)}
+    *{box-sizing:border-box}
+    [hidden]{display:none!important}
+    body{margin:0;font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;color:#25322f;background:#dce8e1;min-height:100vh;word-break:keep-all;overflow-wrap:normal}
+    button,input,textarea{font:inherit;word-break:keep-all;overflow-wrap:normal}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:4px solid #ffd166;outline-offset:3px}
+    .app{min-height:100vh;background:radial-gradient(circle at 15% 10%,rgba(255,255,255,.9),transparent 35%),linear-gradient(135deg,#e7efe8,#cedfd7)}
+    .screen{display:none;min-height:100vh;padding:28px 24px 72px}
+    .screen.active{display:block}
+    .shell{max-width:1180px;margin:auto}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-weight:900;letter-spacing:-.03em}
+    .brand-mark{width:42px;height:42px;border:3px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:var(--yellow);transform:rotate(-7deg)}
+    .case-chip{background:var(--ink);color:white;border-radius:999px;padding:9px 14px;font-weight:800;font-size:14px}
+    .card{background:rgba(255,250,240,.97);border:2px solid rgba(22,59,56,.18);border-radius:26px;box-shadow:var(--shadow);padding:clamp(22px,4vw,48px)}
+    h1,h2,h3,p{margin-top:0}
+    h1{font-size:clamp(40px,5.8vw,66px);line-height:1.1;letter-spacing:-.05em;margin-bottom:20px}
+    h2{font-size:clamp(29px,4vw,46px);letter-spacing:-.045em;margin-bottom:12px;color:var(--ink)}
+    h3{font-size:23px;color:var(--ink)}
+    .lead{font-size:clamp(18px,2.4vw,25px);line-height:1.65;color:#465753}
+    .primary,.secondary,.ghost{border:0;border-radius:16px;padding:15px 22px;font-weight:900;transition:.18s transform,.18s box-shadow,.18s opacity}
+    .primary{background:var(--orange);color:white;box-shadow:0 7px 0 #b84d27}
+    .secondary{background:var(--ink);color:white;box-shadow:0 7px 0 #092724}
+    .ghost{background:#e7eee9;color:var(--ink);border:2px solid #aac1b8}
+    .primary:hover,.secondary:hover{transform:translateY(-2px)}
+    .primary:active,.secondary:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.35)}
+    button:disabled{cursor:not-allowed;opacity:.42;transform:none!important;box-shadow:none!important}
+    .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+    .page-label{position:fixed;left:14px;bottom:10px;font-size:12px;font-weight:800;letter-spacing:.02em;color:rgba(22,59,56,.38);pointer-events:none;z-index:30}
+    .progress{height:9px;background:rgba(22,59,56,.12);border-radius:999px;overflow:hidden;margin-bottom:22px}
+    .progress span{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--yellow));width:12.5%;transition:width .35s}
+    .intro-card{position:relative;overflow:hidden;min-height:570px;display:grid;align-items:center}
+    .intro-card:after{content:"?";position:absolute;right:24px;bottom:-82px;font:900 330px/1 Georgia;color:rgba(22,59,56,.055);transform:rotate(8deg)}
+    .kicker{display:inline-block;background:var(--yellow);color:var(--ink);font-weight:950;padding:8px 14px;border-radius:9px;transform:rotate(-1deg);margin-bottom:18px}
+    .mission{width:100%;position:relative;z-index:1}
+    .intro-copy{max-width:850px}
+    .intro-copy .lead{max-width:790px;margin-bottom:0}
+    .rule-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px}
+    .rule{background:#edf3ee;border:2px solid transparent;border-radius:18px;padding:17px 18px;display:flex;align-items:center;gap:13px;font-weight:900;line-height:1.42;min-height:86px}
+    .rule-number{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;background:var(--ink);color:white;font-size:17px;box-shadow:0 3px 0 #75968b}
+    .intro-actions{margin-top:26px;padding-top:23px;border-top:2px dashed rgba(22,59,56,.18);display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .intro-cue{margin:0;color:#52635e;font-size:17px;font-weight:750}
+    .intro-start{font-size:20px;padding:17px 30px;min-width:210px}
+    .screen[data-page="2"]{padding:14px 18px 38px}
+    .screen[data-page="2"] .topbar{margin-bottom:8px}
+    .screen[data-page="2"] .progress{margin-bottom:10px}
+    .screen[data-page="2"] .card{padding:16px}
+    .clue-index{display:flex;align-items:flex-end;gap:5px;margin:0 0 -1px 12px;min-height:39px;position:relative;z-index:3}
+    .clue-index-tab{min-width:128px;max-width:225px;height:39px;border:1px solid #9fb8af;border-bottom:0;border-radius:12px 12px 0 0;padding:7px 13px;background:#dce9e3;color:#49615a;font-size:13px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:inset 0 -3px rgba(22,59,56,.06);transition:.18s}
+    .clue-index-tab:nth-child(2){background:#f0e4b8}.clue-index-tab:nth-child(3){background:#e7d5dc}.clue-index-tab:nth-child(4){background:#cfe1ed}
+    .clue-index-tab.completed{color:var(--ink);cursor:pointer}
+    .clue-index-tab.current{height:44px;background:var(--paper);color:var(--ink);border:2px solid var(--yellow);border-bottom:0;box-shadow:none}
+    .clue-index-tab:disabled{opacity:.55;cursor:not-allowed}
+    .clue-index-tab.completed:hover,.clue-index-tab.completed:focus-visible{transform:translateY(-3px);filter:saturate(1.15)}
+    .clue-layout{display:grid;grid-template-columns:minmax(520px,1.35fr) minmax(350px,.65fr);gap:14px;height:clamp(485px,calc(100dvh - 220px),645px);min-height:0}
+    .clue-side{display:grid;grid-template-rows:auto 1fr;gap:12px;min-height:0}
+    .clue-stage{height:100%;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:linear-gradient(145deg,#113d3a,#235e58);color:white;border-radius:20px;padding:22px;position:relative;overflow:hidden}
+    .clue-stage:before{content:"";position:absolute;inset:20px;border:2px dashed rgba(255,255,255,.24);border-radius:18px}
+    .clue-no{position:relative;font-size:clamp(28px,3.2vw,38px);font-weight:950;color:var(--ink);margin-bottom:10px}
+    .clue-value{position:relative;font-size:clamp(90px,12vw,150px);line-height:1;font-weight:950;letter-spacing:-.065em;color:var(--ink)}
+    .clue-hint{position:relative;font-size:clamp(18px,2vw,22px);line-height:1.45;color:#52635e;margin-top:14px}
+    .observe-timer{position:relative;margin-top:24px;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.28);border-radius:999px;padding:10px 18px;font-weight:850;color:#fff}
+    .observe-timer strong{display:inline-block;min-width:30px;color:var(--yellow);font-size:24px}
+    .envelope{width:min(360px,78vw);aspect-ratio:1.55;border:0;background:#eacb8d;border-radius:10px;position:relative;filter:drop-shadow(0 18px 20px rgba(0,0,0,.25));transition:transform .7s;z-index:2;overflow:visible}
+    .envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,transparent 49.5%,#dcb976 50%) left/50% 100% no-repeat,linear-gradient(215deg,transparent 49.5%,#dcb976 50%) right/50% 100% no-repeat;border-radius:10px}
+    .envelope-flap{position:absolute;left:0;right:0;top:0;height:58%;background:#f0d59e;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .75s;z-index:3}
+    .envelope-seal{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:#b94b3e;color:#fff4d7;border:4px double #efb06f;font:900 35px Georgia;z-index:4;transition:.4s}
+    .envelope-caption{position:absolute;left:50%;bottom:-48px;transform:translateX(-50%);white-space:nowrap;color:#fff;font-weight:900;font-size:17px}
+    .envelope.opened{transform:translateY(35px) scale(.88);pointer-events:none}
+    .envelope.opened .envelope-flap{transform:rotateX(180deg);z-index:0}
+    .envelope.opened .envelope-seal{opacity:0;transform:translate(-50%,-90%) scale(.45)}
+    .clue-reveal{position:relative;z-index:5;animation:clueRise .65s both;width:min(680px,100%)}
+    @keyframes clueRise{from{opacity:0;transform:translateY(35px) scale(.92)}to{opacity:1;transform:none}}
+    .clue-paper-scene{position:relative;height:390px;width:100%;display:flex;justify-content:center;align-items:flex-start}
+    .clue-paper{position:relative;width:min(560px,90%);min-height:275px;background:linear-gradient(135deg,#fffdf6,#f3e9ce);border:2px solid #c9ad75;border-radius:9px;padding:30px 34px 55px;box-shadow:0 12px 25px rgba(0,0,0,.24);z-index:2;animation:paperOut .8s both}
+    .clue-value[data-length="long"]{font-size:clamp(52px,6.4vw,88px);line-height:1.12;letter-spacing:-.045em;word-break:keep-all;overflow-wrap:normal}
+    .clue-value[data-length="medium"]{font-size:clamp(66px,8.5vw,112px);line-height:1.08;word-break:keep-all}
+    .clue-paper:before{content:"";position:absolute;inset:10px;border:2px dashed rgba(84,67,37,.18);border-radius:4px;pointer-events:none}
+    @keyframes paperOut{from{transform:translateY(95px);opacity:.25}to{transform:translateY(0);opacity:1}}
+    .magnifier-mark{position:absolute;right:18px;top:16px;width:52px;height:52px;border:7px solid rgba(22,59,56,.18);border-radius:50%;z-index:3}
+    .magnifier-mark:after{content:"";position:absolute;width:30px;height:7px;background:rgba(22,59,56,.18);right:-23px;bottom:-10px;transform:rotate(45deg);border-radius:8px}
+    .open-envelope{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(440px,94%);height:170px;background:#d7af65;border-radius:10px;filter:drop-shadow(0 14px 14px rgba(0,0,0,.24));z-index:1}
+    .open-envelope:before{content:"";position:absolute;left:0;right:0;top:-105px;height:125px;background:#efd398;clip-path:polygon(0 100%,50% 0,100% 100%);z-index:0}
+    .open-envelope:after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,transparent 49.5%,#e8c47f 50%) left/50% 100% no-repeat,linear-gradient(210deg,transparent 49.5%,#e8c47f 50%) right/50% 100% no-repeat;border-radius:10px;z-index:4}
+    .open-envelope-label{position:absolute;left:50%;bottom:25px;transform:translateX(-50%);z-index:5;color:#70552d;font-weight:950;letter-spacing:.08em;white-space:nowrap}
+    .clue-review{position:absolute;inset:22px;z-index:15;display:grid;place-items:center;background:rgba(8,39,36,.94);border:2px dashed rgba(255,255,255,.34);border-radius:18px;padding:22px}
+    .clue-review-card{width:min(520px,92%);background:#fffdf6;color:var(--ink);border:3px solid var(--yellow);border-radius:18px;padding:28px;box-shadow:0 18px 45px rgba(0,0,0,.32)}
+    .clue-review-card .review-order{font-size:21px;font-weight:900;color:#68766f}
+    .clue-review-card .review-value{margin:8px 0;font-size:clamp(46px,7vw,82px);line-height:1.12;font-weight:950;letter-spacing:-.045em;word-break:keep-all}
+    .clue-review-card .review-hint{margin:0 0 18px;font-size:17px;line-height:1.55;color:#52635e}
+    .activity-panel{background:#edf4ef;border:3px solid #9bb9ae;border-radius:18px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"icon title timer" "icon text timer";align-items:center;gap:3px 12px;text-align:left;min-height:112px}
+    .activity-icon{grid-area:icon;font-size:38px;margin:0}
+    .activity-panel h3{grid-area:title;margin:0;font-size:19px}
+    .activity-panel p{grid-area:text;margin:0;font-size:14px;line-height:1.45}
+    .activity-panel .countdown{grid-area:timer;margin:0}
+    .activity-panel.discussion-active{border-color:var(--yellow);background:#fff8dc;animation:discussionPulse .75s ease-in-out 2}
+    @keyframes discussionPulse{50%{transform:translateY(-2px);box-shadow:0 0 0 8px rgba(246,196,83,.22)}}
+    .thinking-box{background:#f5ecd8;border-radius:18px;padding:14px 16px;min-width:0;min-height:0;overflow:auto}
+    .prediction-head{display:grid;grid-template-columns:1fr auto;grid-template-areas:"title button" "text text";align-items:center;gap:5px 12px}
+    .prediction-head h3{grid-area:title;margin:0}
+    .prediction-head p{grid-area:text;margin:0}
+    .prediction-head .help-button{grid-area:button;white-space:nowrap}
+    .prediction-content.preview{opacity:.62;pointer-events:none}
+    .first-prediction{margin:0 0 12px;padding:10px 12px;background:#fffdf7;border:2px solid #c9d8d1;border-radius:14px}
+    .first-prediction label{display:block;font-size:14px;font-weight:950;color:var(--ink);margin-bottom:6px}
+    .first-prediction input{width:100%;border:2px solid #9bb9ae;border-radius:10px;padding:10px 11px;background:white;font-size:15px}
+    .help-button{border:2px solid #73998b;background:white;color:var(--ink);border-radius:999px;padding:11px 16px;font-weight:900}
+    .word-choice-grid{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+    .word-choice{border:2px solid #aac1b8;background:white;color:var(--ink);border-radius:999px;padding:9px 14px;font-size:16px;font-weight:950;box-shadow:0 3px 0 #c5d2cc}
+    .word-choice.selected{background:var(--yellow);border-color:#b57a00;box-shadow:0 4px 0 #9f6d00}
+    .hypothesis-board{margin-top:9px;background:#fffdf7;border:2px dashed #88a79b;border-radius:15px;padding:11px 12px}
+    .hypothesis-board h3{font-size:18px;margin:0 0 8px}
+    .combine-row{display:grid;grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr);gap:8px;align-items:center;width:100%}
+    .combine-card{min-width:0;max-width:100%;min-height:52px;border-radius:12px;display:grid;place-items:center;text-align:center;padding:8px 6px;font-size:clamp(16px,1.8vw,23px);line-height:1.2;font-weight:950;word-break:keep-all;overflow-wrap:normal}
+    .combine-card.clue-token{background:var(--ink);color:white}
+    .combine-card.drop-slot{background:#fff4c8;border:3px dashed #c7901d;color:#846b36;transition:.18s}
+    .combine-card.drop-slot.filled{background:var(--yellow);border-style:solid;color:var(--ink)}
+    .combine-card.drop-slot.dragover{transform:scale(1.03);background:#ffe9a0}
+    .combine-plus{text-align:center;font-size:26px;font-weight:950;color:var(--orange)}
+    .hypothesis-sentence{margin:9px 0 0;padding-top:8px;border-top:1px solid #d8caaa;font-size:15px;line-height:1.5;font-weight:800;color:var(--ink)}
+    .clue-instruction{font-weight:900;color:var(--ink);background:#fff2bd;border-left:6px solid var(--yellow);padding:10px 15px;border-radius:10px;margin-bottom:10px;font-size:17px}
+    .countdown{width:62px;height:62px;margin:0;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:white;font-size:25px;font-weight:950;box-shadow:0 0 0 5px #dce9e3}
+    .choice-grid{display:grid;gap:9px;margin:14px 0}
+    .choice{border:2px solid #b9c9c2;background:white;color:var(--ink);border-radius:13px;padding:12px;text-align:left;font-weight:800}
+    .choice.selected{background:#d8eee6;border-color:#267064}
+    textarea{width:100%;min-height:96px;border:2px solid #b9c9c2;border-radius:14px;padding:13px;background:white;resize:vertical}
+    .reason-line{margin-top:8px}
+    .reason-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:center}
+    .reason-actions button{width:100%;min-width:0;padding:10px 12px;border-radius:11px;line-height:1.3;word-break:keep-all}
+    .discussion-action{background:var(--orange);box-shadow:0 5px 0 #a94320}
+    .reason-line input{width:100%;border:2px solid #b9c9c2;border-radius:11px;padding:10px 11px;background:white;margin-top:8px}
+    .reason-line .help-button{font-size:13px;white-space:nowrap}
+    .micro{font-size:13px;color:#6c746f;line-height:1.5}
+    .code-dialog-backdrop{position:fixed;inset:0;background:rgba(8,31,28,.7);display:grid;place-items:center;padding:20px;z-index:100}
+    .code-dialog{width:min(470px,100%);background:var(--paper);border:5px solid var(--yellow);border-radius:25px;padding:28px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.36)}
+    .code-dialog h2{font-size:30px;margin-bottom:9px}
+    .code-dialog input{width:100%;border:3px solid #9bb9ae;border-radius:14px;padding:14px;text-align:center;font-size:25px;font-weight:900;letter-spacing:.18em;margin:12px 0}
+    .code-dialog-actions{display:flex;justify-content:center;gap:10px;margin-top:8px}
+    .investigation-head{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:24px;margin-bottom:16px;padding:4px 6px}
+    .investigation-head h2,.investigation-head p{margin:0}
+    .investigation-head .lead{font-size:clamp(16px,1.8vw,20px)}
+    .article-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,290px);gap:18px;align-items:start}
+    .article{max-width:none;margin:0;background-color:#fffef9;background-image:radial-gradient(rgba(41,55,51,.055) .7px,transparent .7px);background-size:5px 5px;border:1px solid #c9c1b0;border-top:7px solid #172d29;padding:clamp(22px,3.2vw,42px);box-shadow:0 12px 30px rgba(50,40,25,.1);border-radius:2px}
+    .newspaper-name{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:8px;border-bottom:1px solid #273b37;color:#44524e;font-size:13px;font-weight:800;letter-spacing:.04em}
+    .article h3{font-family:"Noto Serif KR","Malgun Gothic",Batang,serif;font-size:clamp(28px,3.4vw,42px);line-height:1.28;letter-spacing:-.045em;margin:20px 0 15px;color:#172d29;word-break:keep-all}
+    .article-meta{border-top:3px double var(--ink);border-bottom:1px solid var(--line);padding:9px 0;margin-bottom:22px;font-size:14px;font-weight:800;color:#59635e}
+    .article-body p{font-family:"Noto Serif KR",Batang,"Malgun Gothic",serif;font-size:18px;line-height:1.95;color:#202a27;margin:12px 0;word-break:keep-all;overflow-wrap:normal}
+    .evidence-word{display:inline;border:0;border-bottom:1px dotted rgba(33,73,66,.48);background:transparent;color:inherit;border-radius:0;padding:0 2px;margin:0 1px;font:inherit;font-weight:inherit;white-space:nowrap;box-shadow:none;text-decoration:none;transition:background .16s,border-color .16s}
+    .evidence-word:hover,.evidence-word:focus-visible{background:#fff2bd;border-bottom-color:#9b6b05;outline:2px solid rgba(246,196,83,.45);outline-offset:1px}
+    .evidence-word.marked{background:linear-gradient(transparent 45%,rgba(246,196,83,.72) 45%);border-bottom-color:#9b6b05;font-weight:800;box-shadow:none}
+    .evidence-word.marked:after{content:"✓";margin-left:4px;color:#8b341e;font-size:12px}
+    .word-help{position:sticky;top:16px;background-color:#fff;background-image:radial-gradient(#d7d7d7 .7px,transparent .7px);background-size:5px 5px;border:0;border-top:5px solid #171717;border-radius:0;padding:10px 0 0;color:#202020}
+    .word-help h3{margin:0;padding:0 10px 9px;border-bottom:2px solid #222;font-family:"Noto Serif KR",Batang,serif;font-size:22px}
+    .word-help>p{margin:9px 10px 7px}
+    .glossary-list{display:grid;gap:0}
+    .glossary-button{width:100%;border:0;border-bottom:1px solid #c9c9c9;background:transparent;color:#202020;border-radius:0;padding:12px 10px;text-align:left;font-family:"Noto Serif KR",Batang,serif;font-size:16px;font-weight:800}
+    .glossary-button:hover,.glossary-button[aria-expanded="true"]{background:rgba(246,196,83,.2)}
+    .glossary-number{display:inline-block;min-width:24px;font-weight:950}
+    .glossary-meaning{margin:0;padding:0 12px 12px 34px;border-bottom:1px solid #c9c9c9;background:rgba(255,255,255,.72);font-size:14px;line-height:1.6;color:#4b4b4b}
+    .source-link{display:inline-block;color:#245f57;font-weight:850;text-underline-offset:3px}
+    .evidence-tray{position:sticky;bottom:28px;max-width:none;margin:18px auto 0;background:var(--ink);color:white;border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:var(--shadow)}
+    @media(min-width:781px){
+      .clue-side:has(#predictionContent:not([hidden])){grid-template-rows:88px 1fr;gap:8px}
+      .clue-side:has(#predictionContent:not([hidden])) .activity-panel{min-height:88px;padding:8px 12px;border-width:2px}
+      .clue-side:has(#predictionContent:not([hidden])) .activity-icon{font-size:30px}
+      .clue-side:has(#predictionContent:not([hidden])) .activity-panel h3{font-size:17px}
+      .clue-side:has(#predictionContent:not([hidden])) .activity-panel p{font-size:12px}
+      .clue-side:has(#predictionContent:not([hidden])) .thinking-box{padding:9px 12px;overflow:hidden}
+      .clue-side:has(#predictionContent:not([hidden])) .first-prediction{margin-bottom:7px;padding:7px 9px}
+      .clue-side:has(#predictionContent:not([hidden])) .first-prediction label{margin-bottom:3px;font-size:12px}
+      .clue-side:has(#predictionContent:not([hidden])) .first-prediction input{padding:7px 9px;font-size:13px}
+      .clue-side:has(#predictionContent:not([hidden])) .prediction-head{gap:8px}
+      .clue-side:has(#predictionContent:not([hidden])) .prediction-head h3{font-size:19px}
+      .clue-side:has(#predictionContent:not([hidden])) .prediction-head .micro{font-size:11px;line-height:1.3}
+      .clue-side:has(#predictionContent:not([hidden])) .help-button{padding:7px 9px;font-size:12px}
+      .clue-side:has(#predictionContent:not([hidden])) .prediction-content>p{margin:6px 0;font-size:13px}
+      .clue-side:has(#predictionContent:not([hidden])) .word-choice-grid{gap:5px;margin:5px 0}
+      .clue-side:has(#predictionContent:not([hidden])) .word-choice{padding:6px 10px;font-size:14px;box-shadow:0 2px 0 #c5d2cc}
+      .clue-side:has(#predictionContent:not([hidden])) .hypothesis-board{margin-top:6px;padding:7px 9px}
+      .clue-side:has(#predictionContent:not([hidden])) .hypothesis-board h3{font-size:15px;margin-bottom:5px}
+      .clue-side:has(#predictionContent:not([hidden])) .combine-card{min-height:42px;font-size:17px}
+      .clue-side:has(#predictionContent:not([hidden])) .hypothesis-sentence{margin-top:5px;padding-top:5px;font-size:12px;line-height:1.35}
+      .clue-side:has(#predictionContent:not([hidden])) .reason-line{margin-top:5px}
+      .clue-side:has(#predictionContent:not([hidden])) .reason-actions button{padding:7px 9px;font-size:12px}
+      .clue-side:has(#predictionContent:not([hidden])) .prediction-content>.micro{margin:5px 0 0;font-size:11px;line-height:1.25}
+    }
+    .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .data-card{background:#fff;border-radius:22px;padding:26px;border:2px solid #cad8d2}
+    .big-stat{font-size:clamp(54px,8vw,92px);font-weight:950;color:var(--orange);letter-spacing:-.06em}
+    .people{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+    .person{width:42px;height:42px;border-radius:50% 50% 42% 42%;background:#d5ddd9;display:grid;place-items:center}
+    .person.on{background:var(--mint)}
+    .timebar{height:34px;background:#dce5e0;border-radius:999px;overflow:hidden;margin:28px 0 12px}
+    .timebar span{display:block;width:60%;height:100%;background:repeating-linear-gradient(45deg,var(--orange),var(--orange) 12px,#f29a70 12px,#f29a70 24px)}
+    .check-question{margin-top:22px;padding:20px;background:#f5ecd8;border-radius:18px}
+    .video-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,.6fr);gap:22px}
+    .video-frame{aspect-ratio:16/9;background:#132522;border-radius:20px;display:grid;place-items:center;color:white;padding:25px;text-align:center;overflow:hidden}
+    .video-frame iframe{width:100%;height:100%;border:0;background:white}
+    .watch-list{background:#f5ecd8;border-radius:20px;padding:24px}
+    .watch-item{display:flex;gap:10px;padding:13px 0;border-bottom:1px solid #d6c8a9;line-height:1.45}
+    .watch-item input{width:22px;height:22px;flex:0 0 auto}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .compare-column{border-radius:22px;padding:24px;min-height:360px}
+    .compare-column.good{background:#dff0e8;border:3px solid #70a895}
+    .compare-column.hard{background:#fff0e4;border:3px solid #e3966f}
+    .compare-card{display:block;width:100%;border:2px solid transparent;border-radius:14px;background:white;padding:16px;margin:11px 0;text-align:left;font-weight:800;line-height:1.5}
+    .compare-card.selected{border-color:var(--ink);box-shadow:0 0 0 3px rgba(22,59,56,.14)}
+    .sentence{background:white;border:3px dashed #9bb4a9;border-radius:20px;padding:24px;font-size:clamp(20px,3vw,30px);line-height:1.9;font-weight:800}
+    .word-options{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+    .word-card{border:2px solid #a8beb4;background:#fff;border-radius:13px;padding:11px 14px;font-weight:800}
+    .word-card.selected{background:var(--yellow);border-color:#b57a00}
+    .report{max-width:820px;margin:auto;background:#fffaf0;border:12px solid var(--ink);outline:4px solid var(--yellow);padding:clamp(25px,5vw,52px);position:relative}
+    .report:before{content:"사건 해결";position:absolute;right:24px;top:25px;border:4px double var(--red);color:var(--red);padding:8px;font-weight:950;transform:rotate(7deg)}
+    .report-section{border-top:2px dashed #bfaf91;padding-top:18px;margin-top:20px}
+    .report blockquote{margin:10px 0;background:#fff2b8;border-left:6px solid var(--yellow);padding:15px;line-height:1.6}
+    .report input{width:100%;border:0;border-bottom:2px solid #768b82;background:transparent;padding:12px 4px;font-size:18px}
+    .toast{position:fixed;left:50%;bottom:48px;transform:translate(-50%,20px);background:#152d29;color:white;padding:12px 18px;border-radius:999px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:50}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .discussion-pop{position:fixed;inset:0;z-index:140;display:grid;place-items:center;padding:24px;background:rgba(10,37,34,.28);pointer-events:none;animation:popFade 2.2s both}
+    .discussion-pop-card{width:min(520px,92vw);background:#fffdf4;border:6px solid var(--yellow);border-radius:26px;padding:30px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+    .discussion-pop-icon{font-size:58px;line-height:1}
+    .discussion-pop h2{margin:12px 0 8px;font-size:clamp(27px,4vw,38px);word-break:keep-all}
+    .discussion-pop p{margin:0;font-size:18px;line-height:1.55;color:#42524d;word-break:keep-all}
+    @keyframes popFade{0%{opacity:0}12%,78%{opacity:1}100%{opacity:0}}
+    @media(prefers-reduced-motion:reduce){.activity-panel.discussion-active,.discussion-pop{animation:none}}
+    @media(max-width:780px){.screen{padding:16px 12px 64px}.screen[data-page="2"]{padding:16px 12px 64px}.topbar{align-items:flex-start}.brand-text{font-size:14px}.card{border-radius:20px}.clue-index{overflow-x:auto;align-items:flex-end;margin-left:4px;padding-top:4px}.clue-index-tab{min-width:104px;padding-inline:9px}.rule-strip,.data-grid,.video-layout,.compare-grid,.clue-layout,.article-layout{grid-template-columns:1fr}.clue-layout{height:auto;max-height:none}.rule-strip{gap:10px;margin-top:24px}.rule{min-height:68px;padding:12px 14px}.intro-actions{align-items:stretch;flex-direction:column}.intro-start{width:100%}.clue-stage{height:auto;min-height:430px;padding-inline:16px}.clue-paper-scene{height:345px}.clue-paper{min-height:250px;padding-inline:18px}.clue-side{display:grid}.activity-panel{min-height:160px}.prediction-head{grid-template-columns:1fr auto}.prediction-head .micro{grid-column:1/-1;grid-row:2}.word-choice{font-size:17px;padding:12px 17px}.combine-row{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);gap:5px}.combine-plus{font-size:22px}.investigation-head{grid-template-columns:1fr;gap:6px}.word-help{position:static}.evidence-tray{bottom:34px;align-items:flex-start;flex-direction:column}.compare-column{min-height:auto}.intro-card{min-height:calc(100vh - 110px)}}
+    @media print{.topbar,.actions,.page-label,.progress,.toast{display:none!important}.screen{display:none!important}.screen[data-page="8"]{display:block!important;padding:0}.report{box-shadow:none;margin:0}}
+  </style>
+<link rel="stylesheet" href="./case-content.css">
+</head>
+<body>
+<div class="app" id="app">
+  <section class="screen active" data-page="1">
+    <div class="shell">
+      <div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span class="brand-text">ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div>
+      <div class="card intro-card"><div class="mission"><div class="intro-copy"><span class="kicker">사회 탐정단 긴급 호출</span><h1>우리 반 사회 탐정단에게<br>사건이 도착했습니다.</h1><p class="lead">어떤 지역의 학교에서 학생들의 생활이 크게 달라졌습니다. 단서를 하나씩 살펴보고 변화의 원인과 결과를 찾아보세요.</p></div><div class="rule-strip"><div class="rule"><span class="rule-number">1</span><span>먼저 혼자<br>생각하기</span></div><div class="rule"><span class="rule-number">2</span><span>짝과 생각<br>비교하기</span></div><div class="rule"><span class="rule-number">3</span><span>근거를 들어<br>함께 말하기</span></div></div><div class="intro-actions"><p class="intro-cue">준비가 되면 오늘의 사건 봉투를 열어보세요.</p><button class="primary intro-start" data-next>사건 봉투 열기</button></div></div></div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="2">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><nav class="clue-index" id="clueIndex" aria-label="단서 인덱스"></nav><div class="clue-instruction" id="clueInstruction">첫 번째 단서 - 단서를 보고 어떤 내용의 기사일지 예상해보세요.</div>
+        <div class="clue-layout"><div class="clue-stage"><button class="envelope" id="clueEnvelope" aria-label="첫 번째 단서 봉투 열기"><span class="envelope-flap"></span><span class="envelope-seal">?</span><span class="envelope-caption">봉투를 눌러 단서 열기</span></button><div class="clue-reveal" id="clueReveal" hidden><div class="clue-paper-scene"><div class="clue-paper"><span class="magnifier-mark" aria-hidden="true"></span><div class="clue-no" id="clueNo">첫 번째 단서</div><div class="clue-value" id="clueValue">3</div><div class="clue-hint" id="clueHint">이 숫자는 학교와 관계가 있습니다.</div></div><div class="open-envelope"><span class="open-envelope-label">ROAD ON · CLUE</span></div></div></div><div class="clue-review" id="clueReview" hidden><div class="clue-review-card"><div class="review-order" id="reviewOrder"></div><div class="review-value" id="reviewValue"></div><p class="review-hint" id="reviewHint"></p><button class="primary" id="closeClueReview">현재 단서로 돌아가기</button></div></div></div>
+          <div class="clue-side"><aside class="activity-panel" id="activityPanel"><div class="activity-icon" id="activityIcon">✉️</div><h3 id="activityTitle">단서 봉투를 열어보세요</h3><p id="activityText">봉투를 누르면 첫 번째 단서가 나타납니다.</p><div class="countdown" id="activityCountdown" hidden><span id="activityCount">8</span></div></aside>
+            <aside class="thinking-box" id="predictionArea"><div class="first-prediction" id="firstPredictionWrap" hidden><label for="predictionNote">나의 첫 예상</label><input id="predictionNote" type="text" placeholder="예: 학교의 반이 3반까지 있을 것 같습니다."></div><div class="prediction-head"><h3>예상카드</h3><p class="micro">혼자 먼저 생각하고, 어려우면 도움카드를 열어보세요.</p><button class="help-button" id="showPredictionHelp" disabled>예상카드 도움받기</button></div><div class="prediction-content preview" id="predictionContent" hidden><p><strong>이 기사는 무엇과 관계있을까요?</strong></p><div class="word-choice-grid" id="predictionChoices"></div><div class="hypothesis-board"><h3>추리 조합</h3><div class="combine-row"><div class="combine-card clue-token" id="clueToken">3</div><div class="combine-plus">＋</div><div class="combine-card drop-slot" id="predictionSlot">예상카드를 놓아보세요</div></div><p class="hypothesis-sentence" id="hypothesisSentence">단서와 예상카드를 연결하면 추리 문장이 완성됩니다.</p></div><div class="reason-line"><div class="reason-actions"><button class="primary discussion-action" id="pairDone" hidden disabled>친구와 이야기하기</button><button class="secondary" id="openNextClue" disabled>다음 단서 카드 열기</button><button class="primary" id="finishClues" hidden disabled>기사문 수사 시작</button></div></div><p class="micro">※ 카드를 누르거나 조합판으로 끌어놓을 수 있습니다.</p></div></aside></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="3">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><div class="investigation-head"><h2>기사문 수사</h2><p class="lead">중요한 낱말을 눌러 증거로 수집하세요. 증거를 한 가지 이상 찾아야 다음 수사로 갈 수 있습니다.</p></div>
+        <div class="article-layout"><article class="article"><div class="newspaper-name"><span>ROAD ON 어린이 사회 신문</span><span>사회 변화 · 학교</span></div><h3>세 학교 친구들이<br>한 학교에 모였어요</h3><div class="article-meta">EBS 뉴스12 │ 2025년 12월 26일 │ 진태희 기자</div><div class="article-body">
+          <p>전북 부안군의 <button class="evidence-word" data-evidence="세 초등학교">세 초등학교</button>는 <button class="evidence-word" data-evidence="학생 수">학생 수</button>가 줄어들자 <button class="evidence-word" data-evidence="하나의 학교">하나의 학교</button>로 합쳐졌습니다. 새 학교에는 여러 학교에 흩어져 있던 학생들이 함께 다니게 되었습니다.</p>
+          <p>학생 수가 늘어나면서 전에는 하기 어려웠던 <button class="evidence-word" data-evidence="단체 활동">단체 활동</button>도 가능해졌습니다. 친구들과 <button class="evidence-word" data-evidence="피구">피구</button>를 하고, 여러 의견을 나누며 <button class="evidence-word" data-evidence="토론">토론</button>할 수 있게 된 것입니다. 조사에 참여한 <button class="evidence-word" data-evidence="11명 중 10명">11명 중 10명</button>은 <button class="evidence-word" data-evidence="수업 활동">수업 활동</button>이 전보다 다양해졌다고 답했습니다.</p>
+          <p>그러나 <button class="evidence-word" data-evidence="등굣길">등굣길</button>이 길어진 학생도 생겼습니다. <button class="evidence-word" data-evidence="통학버스">통학버스</button>가 운행되고 있지만, 통학 시간이 <button class="evidence-word" data-evidence="30분 이상">30분 이상</button> 늘어난 학생도 있었습니다. 학생 수의 변화는 학교의 수뿐만 아니라 수업 활동과 등굣길에도 영향을 줍니다.</p></div>
+          <p class="micro">출처: <a class="source-link" href="https://primary.ebs.co.kr/book/edu/ebsnews/view?encodingSeq=60677389" target="_blank" rel="noopener">EBS 뉴스12, 「학교 합쳤더니 교실에 활력…체계적 지원은 과제」 원문 보기</a>를 어린이용으로 재구성함.</p>
+        </article><aside class="word-help"><h3>기사 속 어려운 낱말</h3><p class="micro">낱말을 누르면 뜻을 확인할 수 있어요.</p><div class="glossary-list">
+          <button class="glossary-button" aria-expanded="false" data-meaning="여러 학교를 하나의 학교로 합치는 것을 말해요."><span class="glossary-number">1</span>학교 통합</button>
+          <button class="glossary-button" aria-expanded="false" data-meaning="여러 사람이 함께하는 활동이에요."><span class="glossary-number">2</span>단체 활동</button>
+          <button class="glossary-button" aria-expanded="false" data-meaning="서로의 생각과 까닭을 주고받으며 이야기하는 활동이에요."><span class="glossary-number">3</span>토론</button>
+          <button class="glossary-button" aria-expanded="false" data-meaning="집과 학교 사이를 오가는 길이에요."><span class="glossary-number">4</span>등굣길</button>
+          <button class="glossary-button" aria-expanded="false" data-meaning="학생들이 학교에 오가도록 운행하는 버스예요."><span class="glossary-number">5</span>통학버스</button>
+        </div></aside></div>
+        <div class="evidence-tray"><span id="evidenceCount">수집한 증거 0개</span><button class="primary" id="toData" disabled>통계 자료 확인</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="4">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><h2>자료 수사: 숫자가 말하는 것</h2><p class="lead">같은 사건을 숫자로 살펴보면 어떤 사실을 더 정확하게 알 수 있을까요?</p>
+        <div class="data-grid"><div class="data-card"><div class="big-stat">10 / 11</div><h3>학생 11명 중 10명</h3><p>학교가 합쳐진 뒤 수업 활동이 전보다 다양해졌다고 답했습니다.</p><div class="people"><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person on">●</span><span class="person">●</span></div></div>
+          <div class="data-card"><div class="big-stat">+30분</div><h3>길어진 통학 시간</h3><p>통학버스가 있어도 등굣길이 30분 이상 길어진 학생이 있었습니다.</p><div class="timebar"><span></span></div><p class="micro">한 칸을 10분이라고 생각하면 약 세 칸만큼 더 길어진 셈입니다.</p></div></div>
+        <div class="check-question"><h3>두 숫자를 함께 보면 알 수 있는 사실은?</h3><div class="choice-grid"><button class="choice data-answer">학교 통합에는 좋아진 점과 불편해진 점이 함께 있다.</button><button class="choice data-answer">모든 학생의 등굣길이 짧아졌다.</button><button class="choice data-answer">학교가 합쳐져도 수업 활동은 달라지지 않는다.</button></div></div>
+        <div class="actions"><button class="primary" id="toVideo" disabled>현장 영상 확인</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="5">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><h2>현장 확인</h2><p class="lead">기사에서 읽은 모습을 실제 뉴스 영상에서 찾아보세요.</p>
+        <div class="video-layout"><div class="video-frame"><div><div style="font-size:68px">▶</div><h3 style="color:white">EBS 뉴스 기사·영상</h3><p>공식 페이지에서 원본 영상을 확인합니다.</p><a class="primary" style="display:inline-block;text-decoration:none" href="https://primary.ebs.co.kr/book/edu/ebsnews/view?encodingSeq=60677389" target="_blank" rel="noopener">공식 영상 열기</a></div></div>
+          <aside class="watch-list"><h3>영상에서 찾기</h3><label class="watch-item"><input type="checkbox" class="watch-check"> 여러 친구가 함께 활동하는 모습</label><label class="watch-item"><input type="checkbox" class="watch-check"> 피구나 토론처럼 다양해진 수업</label><label class="watch-item"><input type="checkbox" class="watch-check"> 통학버스 또는 길어진 등굣길</label><p class="micro">한 가지 이상 찾았다면 표시하세요.</p></aside></div>
+        <div class="actions"><button class="primary" id="toCompare" disabled>비교 수사 시작</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="6">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><h2>비교 탐구</h2><p class="lead">학교가 합쳐진 뒤 좋아진 점과 불편해진 점을 각각 하나 이상 고르세요.</p>
+        <div class="compare-grid"><section class="compare-column good"><h3>좋아진 점</h3><button class="compare-card" data-side="good">함께 활동할 친구가 많아졌습니다.</button><button class="compare-card" data-side="good">피구나 토론 같은 단체 활동이 다양해졌습니다.</button><button class="compare-card" data-side="good">여러 학교의 친구들이 서로 만날 수 있습니다.</button></section>
+          <section class="compare-column hard"><h3>불편해진 점</h3><button class="compare-card" data-side="hard">일부 학생은 학교까지 가는 시간이 길어졌습니다.</button><button class="compare-card" data-side="hard">통학버스를 타야 하는 학생이 생겼습니다.</button><button class="compare-card" data-side="hard">집에서 가까웠던 학교에 계속 다니기 어려워졌습니다.</button></section></div>
+        <div class="actions"><button class="primary" id="toSolve" disabled>사건 해결하기</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="7">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="card"><h2>사건 해결</h2><p class="lead">낱말 카드를 골라 조사한 내용을 한 문장으로 완성하세요.</p>
+        <div class="sentence" id="sentencePreview">[원인] 세 학교가 하나로 합쳐졌고, [좋아진 점] 하지만 [불편해진 점]</div>
+        <h3 style="margin-top:24px">① 원인</h3><div class="word-options" data-slot="cause"><button class="word-card">학생 수가 줄어들면서</button><button class="word-card">학생 수가 늘어나면서</button><button class="word-card">운동장이 작아지면서</button></div>
+        <h3>② 좋아진 점</h3><div class="word-options" data-slot="benefit"><button class="word-card">수업 활동이 다양해졌습니다.</button><button class="word-card">친구를 만날 수 없게 되었습니다.</button><button class="word-card">학교 수가 늘어났습니다.</button></div>
+        <h3>③ 불편해진 점</h3><div class="word-options" data-slot="difficulty"><button class="word-card">일부 학생의 등굣길은 길어졌습니다.</button><button class="word-card">모든 학생의 등굣길은 짧아졌습니다.</button><button class="word-card">통학버스가 모두 사라졌습니다.</button></div>
+        <div class="actions"><button class="primary" id="toReport" disabled>탐정 보고서 만들기</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" data-page="8">
+    <div class="shell"><div class="topbar"><div class="brand"><span class="brand-mark">RO</span><span>ROAD ON 사회 변화 탐정단</span></div><span class="case-chip">저출산 사건 01</span></div><div class="progress"><span></span></div>
+      <div class="report" id="reportCard"><span class="kicker">ROAD ON 사회 변화 탐정단</span><h2>탐정 보고서</h2><p><strong>사건:</strong> 세 학교 친구들이 한 학교에 모인 까닭</p><div class="report-section"><h3>내가 찾은 기사 증거</h3><blockquote id="reportEvidence">선택한 증거가 표시됩니다.</blockquote></div><div class="report-section"><h3>비교해서 발견한 점</h3><p id="reportCompare"></p></div><div class="report-section"><h3>사건 해결 문장</h3><p id="reportSentence" style="font-size:21px;line-height:1.65;font-weight:850"></p></div><div class="report-section"><h3>나의 한 줄 생각</h3><input id="finalThought" placeholder="이 사건을 조사하며 든 생각을 적어 보세요."></div><p class="micro" style="margin-top:24px">자료 출처: EBS 뉴스12, 2025. 12. 26. 어린이용 재구성 기사</p></div>
+      <div class="actions" style="justify-content:center"><button class="primary" id="savePng">PNG 이미지로 저장</button><button class="ghost" id="restart">처음부터 다시 하기</button></div>
+    </div>
+  </section>
+</div>
+<div class="code-dialog-backdrop" id="codeModal" hidden><div class="code-dialog" role="dialog" aria-modal="true" aria-labelledby="codeDialogTitle"><div style="font-size:46px">🔐</div><h2 id="codeDialogTitle">수업 진행 코드</h2><p>오늘 탐구하는 대주제 코드를 입력하세요.</p><input id="teacherCode" inputmode="text" maxlength="10" autocomplete="off" placeholder="대주제"><div class="code-dialog-actions"><button class="ghost" id="cancelCode">돌아가기</button><button class="primary" id="confirmCode">확인</button></div></div></div>
+<div class="page-label" id="pageLabel">1페이지 사건 도착(오늘의 사건) · 저출산 사건</div><div class="toast" id="toast"></div><dialog class="lesson-dialog talk-dialog" id="discussionPop" aria-labelledby="talkTitle"><div class="discussion-pop-icon">🗣️</div><h2 id="talkTitle">친구와 이야기할 시간입니다.</h2><p class="speech-frame" id="speechFrame"></p><p class="speech-frame">왜냐하면 ______이기 때문입니다.</p><div class="my-prediction"><strong>내가 적은 예상</strong><p id="discussionPrediction"></p></div><p>친구의 생각을 듣고 “왜 그렇게 생각했어?”라고 물어보세요.</p><button class="primary" id="closeDiscussion">이야기를 마쳤어요</button></dialog>
+<script src="./cases.js"></script>
+<script src="./case-content.js"></script>
+<script>
+const pageNames={1:'1페이지 사건 도착(오늘의 사건)',2:'2페이지 단서 추리(개별·짝 토의)',3:'3페이지 기사 수사(증거 표시)',4:'4페이지 자료 수사(통계·사진)',5:'5페이지 현장 확인(뉴스 영상)',6:'6페이지 비교 탐구(맞춤 비교판)',7:'7페이지 사건 해결(문장 완성)',8:'8페이지 탐정 보고서(이미지 저장)'};
+const state={page:1,clue:0,prediction:'',predictions:[],optionOrders:[],completedClues:[],pairCompleted:false,evidence:[],dataAnswer:false,watch:[],good:'',hard:'',words:{cause:'',benefit:'',difficulty:''}};
+const clues=lesson.clues;
+const predictionOptions=clues.map(c=>c.options);
+const clueOrders=['첫 번째','두 번째','세 번째','네 번째'];
+let thinkingTimer=null;
+const screens=[...document.querySelectorAll('.screen')];
+const toast=document.getElementById('toast');
+function notify(msg){toast.textContent=msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1700)}
+function go(page){if(thinkingTimer){clearInterval(thinkingTimer);thinkingTimer=null}document.getElementById('codeModal').hidden=true;state.page=page;screens.forEach(s=>s.classList.toggle('active',Number(s.dataset.page)===page));document.getElementById('pageLabel').textContent=pageNames[page]+` · 저출산 사건 ${caseIndex+1}`;document.querySelectorAll('.progress span').forEach(x=>x.style.width=(page/8*100)+'%');window.scrollTo({top:0,behavior:'smooth'});if(page===8){fillReport();markCaseComplete()}}
+document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>go(2));
+function closeClueReview(){document.getElementById('clueReview').hidden=true}
+function showClueReview(index){if(!state.completedClues[index])return;document.getElementById('reviewOrder').textContent=`${clueOrders[index]} 단서`;document.getElementById('reviewValue').textContent=clues[index].value;document.getElementById('reviewHint').textContent=clues[index].hint;document.getElementById('clueReview').hidden=false}
+function renderClueIndex(){const index=document.getElementById('clueIndex');index.innerHTML='';clues.forEach((clue,i)=>{const tab=document.createElement('button'),completed=Boolean(state.completedClues[i]),current=i===state.clue;tab.className='clue-index-tab'+(completed?' completed':'')+(current?' current':'');tab.textContent=completed?`${clueOrders[i]} 단서 · ${clue.value}`:`${clueOrders[i]} 단서${current?'':' 🔒'}`;tab.disabled=!completed&&!current;if(current)tab.setAttribute('aria-current','step');tab.onclick=()=>{if(current)closeClueReview();else showClueReview(i)};index.appendChild(tab)})}
+function renderClue(){const c=clues[state.clue],order=clueOrders[state.clue],value=document.getElementById('clueValue');state.prediction='';state.pairCompleted=false;closeClueReview();renderClueIndex();document.getElementById('clueInstruction').textContent='단서를 이어 무슨 일이 있었을지 생각해 봅시다.';document.getElementById('clueNo').textContent=`${order} 단서`;value.textContent=c.value;value.dataset.length=c.value.length>=7?'long':c.value.length>=5?'medium':'short';document.getElementById('clueHint').textContent=c.hint;document.getElementById('clueWordHelp').textContent=c.wordHelp||'';document.getElementById('clueToken').textContent=c.value;document.getElementById('clueEnvelope').setAttribute('aria-label',`${order} 단서 봉투 열기`);document.getElementById('clueEnvelope').classList.remove('opened');document.getElementById('clueReveal').hidden=true;document.getElementById('activityPanel').classList.remove('discussion-active');document.getElementById('discussionPop').hidden=true;document.getElementById('activityIcon').textContent='✉️';document.getElementById('activityTitle').textContent='단서 봉투를 열어보세요';document.getElementById('activityText').textContent='봉투를 누르면 새로운 단서가 나타납니다.';document.getElementById('activityCountdown').hidden=true;document.getElementById('pairDone').hidden=true;document.getElementById('pairDone').disabled=true;document.getElementById('pairDone').textContent='친구와 이야기하기';document.getElementById('predictionContent').hidden=true;document.getElementById('predictionContent').classList.add('preview');document.getElementById('firstPredictionWrap').hidden=true;document.getElementById('showPredictionHelp').disabled=true;document.getElementById('showPredictionHelp').textContent='예상카드 도움받기';document.getElementById('teacherCode').value='';document.getElementById('predictionNote').value='';document.getElementById('openNextClue').hidden=false;document.getElementById('openNextClue').disabled=true;document.getElementById('openNextClue').textContent=state.clue===clues.length-1?'단서 확인 완료':'다음 단서 카드 열기';document.getElementById('finishClues').hidden=true;document.getElementById('finishClues').disabled=true;renderPredictions();updateHypothesis()}
+function selectPrediction(word){state.prediction=state.prediction===word?'':word;state.predictions[state.clue]=state.prediction;state.pairCompleted=false;document.getElementById('openNextClue').disabled=true;renderPredictions();updateHypothesis();prepareReasonStep()}
+function currentPredictionOptions(){if(!state.optionOrders[state.clue]){const options=[...predictionOptions[state.clue]];for(let i=options.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[options[i],options[j]]=[options[j],options[i]]}state.optionOrders[state.clue]=options}return state.optionOrders[state.clue]}
+function renderPredictions(){const box=document.getElementById('predictionChoices'),options=currentPredictionOptions();box.innerHTML='';options.forEach(t=>{const b=document.createElement('button');b.className='word-choice'+(state.prediction===t?' selected':'');b.textContent=t;b.draggable=true;b.setAttribute('aria-pressed',state.prediction===t?'true':'false');b.onclick=()=>selectPrediction(t);b.ondragstart=e=>{e.dataTransfer.setData('text/plain',t);e.dataTransfer.effectAllowed='move'};box.appendChild(b)})}
+function updateHypothesis(){const slot=document.getElementById('predictionSlot'),sentence=document.getElementById('hypothesisSentence'),note=document.getElementById('predictionNote'),clue=clues[state.clue].value;note.placeholder='나는 …일 것 같습니다. 그 까닭은 …입니다.';if(state.prediction){slot.textContent=state.prediction;slot.classList.add('filled');sentence.textContent=`‘${clue}’와 ‘${state.prediction}’에는 어떤 관계가 있을까요? 나의 예상을 적어 보세요.`}else{slot.textContent='예상카드를 놓아보세요';slot.classList.remove('filled');sentence.textContent='단서와 예상카드를 연결하면 추리 문장이 완성됩니다.'}}
+const predictionSlot=document.getElementById('predictionSlot');predictionSlot.ondragover=e=>{e.preventDefault();predictionSlot.classList.add('dragover')};predictionSlot.ondragleave=()=>predictionSlot.classList.remove('dragover');predictionSlot.ondrop=e=>{e.preventDefault();predictionSlot.classList.remove('dragover');const word=e.dataTransfer.getData('text/plain');if(predictionOptions[state.clue].includes(word))selectPrediction(word)};
+function showPredictionCards(){if(thinkingTimer){clearInterval(thinkingTimer);thinkingTimer=null}const help=document.getElementById('showPredictionHelp');document.getElementById('predictionContent').hidden=false;document.getElementById('predictionContent').classList.remove('preview');document.getElementById('activityCountdown').hidden=true;document.getElementById('activityIcon').textContent='🧩';document.getElementById('activityTitle').textContent='예상카드를 골라 조합해보세요';document.getElementById('activityText').textContent='단서와 가장 관련 있다고 생각한 단어를 고르세요.';help.disabled=true;help.textContent='예상카드가 열렸어요'}
+function finishSoloThinking(){clearInterval(thinkingTimer);thinkingTimer=null;const help=document.getElementById('showPredictionHelp');document.getElementById('activityCountdown').hidden=true;document.getElementById('activityIcon').textContent='🧩';document.getElementById('activityTitle').textContent='이제 예상카드를 열어보세요';document.getElementById('activityText').textContent='단서와 관련 있다고 생각한 단어를 골라 조합해보세요.';help.disabled=false}
+function startThinking(){const help=document.getElementById('showPredictionHelp');document.getElementById('activityIcon').textContent='🔎';document.getElementById('activityTitle').textContent='혼자 생각할 시간입니다';document.getElementById('activityText').textContent='단서를 계속 보면서 아래에 나의 첫 예상을 적어보세요.';document.getElementById('activityCountdown').hidden=false;document.getElementById('pairDone').hidden=true;document.getElementById('firstPredictionWrap').hidden=false;let left=10;help.disabled=true;help.textContent='예상카드 도움받기';document.getElementById('activityCount').textContent=left;thinkingTimer=setInterval(()=>{left--;document.getElementById('activityCount').textContent=left;if(left<=5&&left>0)help.disabled=false;if(left<=0)finishSoloThinking()},1000)}
+function startObservation(){let left=8;document.getElementById('activityIcon').textContent='👀';document.getElementById('activityTitle').textContent='단서를 자세히 살펴보세요';document.getElementById('activityText').textContent='아직 답을 고르지 말고 보이는 숫자와 낱말을 관찰하세요.';document.getElementById('activityCountdown').hidden=false;document.getElementById('activityCount').textContent=left;thinkingTimer=setInterval(()=>{left--;document.getElementById('activityCount').textContent=left;if(left<=0){clearInterval(thinkingTimer);thinkingTimer=null;startThinking()}},1000)}
+document.getElementById('clueEnvelope').onclick=()=>{const envelope=document.getElementById('clueEnvelope');if(envelope.classList.contains('opened'))return;envelope.classList.add('opened');setTimeout(()=>{envelope.hidden=true;document.getElementById('clueReveal').hidden=false;startObservation()},650)};
+function prepareReasonStep(){const pair=document.getElementById('pairDone');if(state.prediction){pair.hidden=false;pair.disabled=!document.getElementById('predictionNote').value.trim();document.getElementById('activityIcon').textContent='✏️';document.getElementById('activityTitle').textContent='나의 예상을 적어보세요';document.getElementById('activityText').textContent='문장 예시를 참고해 예상한 내용을 한 줄로 적으세요.'}else{pair.hidden=true;document.getElementById('activityIcon').textContent='🧩';document.getElementById('activityTitle').textContent='예상카드를 골라 조합해보세요';document.getElementById('activityText').textContent='단서와 가장 관련 있다고 생각한 단어를 고르세요.'}}
+document.getElementById('showPredictionHelp').onclick=()=>{showPredictionCards();notify('예상카드를 열었습니다. 단서와 조합해보세요.')};
+document.getElementById('predictionNote').oninput=()=>{state.pairCompleted=false;document.getElementById('openNextClue').disabled=true;document.getElementById('pairDone').textContent='친구와 이야기하기';document.getElementById('pairDone').disabled=!(state.prediction&&document.getElementById('predictionNote').value.trim())};
+document.getElementById('pairDone').onclick=()=>{const panel=document.getElementById('activityPanel'),pop=document.getElementById('discussionPop'),pair=document.getElementById('pairDone');state.pairCompleted=false;document.getElementById('activityIcon').textContent='🗣️';document.getElementById('activityTitle').textContent='친구와 이야기할 시간입니다';document.getElementById('activityText').textContent='내가 만든 추리 문장과 나의 예상을 친구에게 설명해보세요.';pair.disabled=true;pair.textContent='친구와 이야기 중';document.getElementById('openNextClue').disabled=true;panel.classList.remove('discussion-active');void panel.offsetWidth;panel.classList.add('discussion-active');document.getElementById('speechFrame').textContent=`저는 ${clueOrders[state.clue]} 단서를 통해 ______라고 생각합니다.`;document.getElementById('discussionPrediction').textContent=document.getElementById('predictionNote').value;pop.hidden=false;pop.showModal();document.getElementById('closeDiscussion').focus();setTimeout(()=>panel.classList.remove('discussion-active'),1800)};
+function finishDiscussion(){const pop=document.getElementById('discussionPop');pop.close();pop.hidden=true;state.pairCompleted=true;document.getElementById('pairDone').textContent='친구와 이야기했어요';document.getElementById('openNextClue').disabled=false;document.getElementById('openNextClue').focus()}
+document.getElementById('closeDiscussion').onclick=finishDiscussion;
+document.getElementById('discussionPop').addEventListener('cancel',e=>{e.preventDefault();finishDiscussion()});
+document.getElementById('openNextClue').onclick=()=>{if(!state.pairCompleted){notify('먼저 나의 예상을 적고 친구와 이야기해 주세요.');return}const modal=document.getElementById('codeModal');document.getElementById('teacherCode').value='';modal.hidden=false;setTimeout(()=>document.getElementById('teacherCode').focus(),0)};
+function closeCodeModal(){document.getElementById('codeModal').hidden=true}
+function confirmTeacherCode(){if(document.getElementById('teacherCode').value.trim()!=='저출산'){notify('수업 진행 코드를 확인해 주세요.');document.getElementById('teacherCode').select();return}closeCodeModal();state.completedClues[state.clue]=true;if(state.clue<clues.length-1){state.clue++;document.getElementById('clueEnvelope').hidden=false;renderClue();window.scrollTo({top:0,behavior:'smooth'});notify('다음 단서 봉투가 도착했습니다!')}else{renderClueIndex();document.getElementById('openNextClue').hidden=true;document.getElementById('finishClues').hidden=false;document.getElementById('finishClues').disabled=false;notify('모든 단서를 확인했습니다.');askArticleStart()}}
+document.getElementById('cancelCode').onclick=closeCodeModal;
+document.getElementById('confirmCode').onclick=confirmTeacherCode;
+document.getElementById('closeClueReview').onclick=closeClueReview;
+document.getElementById('teacherCode').onkeydown=e=>{if(e.key==='Enter')confirmTeacherCode();if(e.key==='Escape')closeCodeModal()};
+document.getElementById('finishClues').onclick=()=>go(3);
+document.querySelectorAll('[data-evidence]').forEach(b=>b.onclick=()=>{b.classList.toggle('marked');b.setAttribute('aria-pressed',String(b.classList.contains('marked')));state.evidence=[...document.querySelectorAll('[data-evidence].marked')].map(x=>x.dataset.evidence);document.getElementById('evidenceCount').textContent=`수집한 증거 ${state.evidence.length}개`;document.getElementById('toData').disabled=state.evidence.length===0});
+document.querySelectorAll('.glossary-button').forEach(b=>b.onclick=()=>{const open=b.getAttribute('aria-expanded')==='true';document.querySelectorAll('.glossary-button').forEach(x=>{x.setAttribute('aria-expanded','false');const meaning=x.nextElementSibling;if(meaning?.classList.contains('glossary-meaning'))meaning.remove()});if(!open){b.setAttribute('aria-expanded','true');const meaning=document.createElement('p');meaning.className='glossary-meaning';meaning.textContent=b.dataset.meaning;b.after(meaning)}});
+document.getElementById('toData').onclick=()=>go(4);
+document.querySelectorAll('.data-answer').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('.data-answer').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.dataAnswer=i===0;document.getElementById('toVideo').disabled=!state.dataAnswer;notify(i===0?'두 자료를 잘 연결했어요!':'숫자가 알려주는 내용을 다시 살펴보세요.')});
+document.getElementById('toVideo').onclick=()=>go(5);
+document.querySelectorAll('.watch-check').forEach(c=>c.onchange=()=>{state.watch=[...document.querySelectorAll('.watch-check:checked')].map(x=>x.parentElement.textContent.trim());document.getElementById('toCompare').disabled=state.watch.length===0});
+document.getElementById('toCompare').onclick=()=>go(6);
+document.querySelectorAll('.compare-card').forEach(b=>b.onclick=()=>{const side=b.dataset.side;document.querySelectorAll(`.compare-card[data-side="${side}"]`).forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state[side]=b.textContent.trim();document.getElementById('toSolve').disabled=!(state.good&&state.hard)});
+document.getElementById('toSolve').onclick=()=>go(7);
+document.querySelectorAll('.word-options').forEach(group=>group.querySelectorAll('.word-card').forEach(b=>b.onclick=()=>{group.querySelectorAll('.word-card').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');state.words[group.dataset.slot]=b.textContent.trim();updateSentence()}));
+function finalSentence(){const w=state.words;return `${w.cause||'[학생 수의 변화]'} ${w.benefit||'[어려움]'} ${w.difficulty||'[학교생활의 변화]'}`}
+function updateSentence(){document.getElementById('sentencePreview').textContent=finalSentence();document.getElementById('toReport').disabled=!Object.values(state.words).every(Boolean)}
+document.getElementById('toReport').onclick=()=>go(8);
+function fillReport(){document.getElementById('reportEvidence').textContent=state.evidence.join(' · ')||'선택한 증거가 없습니다.';document.getElementById('reportCompare').textContent=`${comparisonLabels[0]}: ${state.good} / ${comparisonLabels[1]}: ${state.hard}`;document.getElementById('reportSentence').textContent=finalSentence()}
+function wrap(ctx,text,x,y,maxWidth,lineHeight){const words=[...text];let line='';const lines=[];for(const ch of words){const test=line+ch;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=ch}else line=test}if(line)lines.push(line);lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));return y+lines.length*lineHeight}
+document.getElementById('savePng').onclick=()=>{const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1600;const c=canvas.getContext('2d');c.fillStyle='#fffaf0';c.fillRect(0,0,1200,1600);c.fillStyle='#163b38';c.fillRect(0,0,1200,175);c.fillStyle='#f6c453';c.font='900 34px sans-serif';c.fillText('ROAD ON 사회 변화 탐정단',70,72);c.fillStyle='white';c.font='900 54px sans-serif';c.fillText('탐정 보고서',70,140);c.fillStyle='#c94c4c';c.font='900 29px sans-serif';c.fillText('사건 해결',920,90);let y=245;c.fillStyle='#163b38';c.font='900 34px sans-serif';c.fillText('사건',70,y);y+=55;c.fillStyle='#293733';c.font='700 28px sans-serif';y=wrap(c,lesson.articleTitle,70,y,1060,43)+45;c.strokeStyle='#c9b996';c.setLineDash([10,8]);c.beginPath();c.moveTo(70,y);c.lineTo(1130,y);c.stroke();y+=65;c.fillStyle='#163b38';c.font='900 34px sans-serif';c.fillText('내가 찾은 기사 증거',70,y);y+=55;c.fillStyle='#293733';c.font='600 27px sans-serif';y=wrap(c,state.evidence.join(' · ')||'선택한 증거가 없습니다.',70,y,1060,42)+50;c.fillStyle='#163b38';c.font='900 34px sans-serif';c.fillText('비교해서 발견한 점',70,y);y+=55;c.fillStyle='#293733';c.font='600 27px sans-serif';y=wrap(c,`${comparisonLabels[0]}: ${state.good}`,70,y,1060,42)+18;y=wrap(c,`${comparisonLabels[1]}: ${state.hard}`,70,y,1060,42)+50;c.fillStyle='#163b38';c.font='900 34px sans-serif';c.fillText('사건 해결 문장',70,y);y+=55;c.fillStyle='#293733';c.font='700 29px sans-serif';y=wrap(c,finalSentence(),70,y,1060,45)+50;c.fillStyle='#163b38';c.font='900 34px sans-serif';c.fillText('나의 한 줄 생각',70,y);y+=55;c.fillStyle='#293733';c.font='600 27px sans-serif';wrap(c,document.getElementById('finalThought').value.trim()||'아직 입력하지 않았습니다.',70,y,1060,42);c.fillStyle='#68756f';c.font='500 21px sans-serif';c.fillText('자료 출처: '+lesson.meta,70,1530);const a=document.createElement('a');a.download=`ROAD-ON_저출산_사건${caseIndex+1}_탐정보고서.png`;a.href=canvas.toDataURL('image/png');a.click();notify('탐정 보고서를 이미지로 저장했습니다.')};
+document.getElementById('restart').onclick=()=>{if(confirm('처음부터 다시 탐구할까요?'))location.reload()};
+renderClue();
+updateSentence();
+</script>
+</body>
+</html>

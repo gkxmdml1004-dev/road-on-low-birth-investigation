@@ -1,5 +1,6 @@
 (() => {
   const inAging = location.pathname.includes('/aging/');
+  document.body.classList.add(inAging ? 'theme-aging' : 'theme-lowbirth');
   const dialog = document.createElement('dialog');
   dialog.className = 'theme-selector-dialog';
   dialog.setAttribute('aria-labelledby', 'themeSelectorTitle');
@@ -29,3 +30,4 @@
   });
   dialog.querySelector('.close-theme-selector').onclick = () => dialog.close();
 })();
+

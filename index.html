@@ -342,7 +342,7 @@ let thinkingTimer=null;
 const screens=[...document.querySelectorAll('.screen')];
 const toast=document.getElementById('toast');
 function notify(msg){toast.textContent=msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1700)}
-function go(page){if(thinkingTimer){clearInterval(thinkingTimer);thinkingTimer=null}document.getElementById('codeModal').hidden=true;state.page=page;screens.forEach(s=>s.classList.toggle('active',Number(s.dataset.page)===page));document.getElementById('pageLabel').textContent=pageNames[page]+` · 저출산 사건 ${caseIndex+1}`;document.querySelectorAll('.progress span').forEach(x=>x.style.width=(page/8*100)+'%');window.scrollTo({top:0,behavior:'smooth'});if(page===8){fillReport();markCaseComplete()}}
+function go(page){if(thinkingTimer){clearInterval(thinkingTimer);thinkingTimer=null}document.getElementById('codeModal').hidden=true;state.page=page;screens.forEach(s=>s.classList.toggle('active',Number(s.dataset.page)===page));updatePageNav(page);document.getElementById('pageLabel').textContent=pageNames[page]+` · 저출산 사건 ${caseIndex+1}`;document.querySelectorAll('.progress span').forEach(x=>x.style.width=(page/8*100)+'%');window.scrollTo({top:0,behavior:'smooth'});if(page===8){fillReport();markCaseComplete()}}
 document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>go(2));
 function closeClueReview(){document.getElementById('clueReview').hidden=true}
 function showClueReview(index){if(!state.completedClues[index])return;document.getElementById('reviewOrder').textContent=`${clueOrders[index]} 단서`;document.getElementById('reviewValue').textContent=clues[index].value;document.getElementById('reviewHint').textContent=clues[index].hint;document.getElementById('clueReview').hidden=false}

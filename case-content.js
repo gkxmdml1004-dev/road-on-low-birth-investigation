@@ -32,6 +32,29 @@ function openCaseUnlock(index){requestedCaseIndex=index;document.getElementById(
 document.getElementById('closeCaseSelector').onclick=()=>selector.close();
 document.getElementById('unlockCases').onclick=()=>{if(document.getElementById('caseCode').value.trim()!=='저출산'){document.getElementById('caseCodeError').textContent='대주제 코드를 확인해 주세요.';document.getElementById('caseCode').select();return;}if(requestedCaseIndex===null)return;location.href=`?case=${requestedCaseIndex+1}`;};
 document.getElementById('caseCode').onkeydown=e=>{if(e.key==='Enter')document.getElementById('unlockCases').click()};
+const pageShortNames=['사건 도착','단서 추리','기사 수사','자료 수사','현장 확인','비교 탐구','사건 해결','탐정 보고서'];
+document.querySelectorAll('.screen').forEach(section=>{
+  const currentPage=Number(section.dataset.page);
+  const nav=document.createElement('nav');
+  nav.className='page-jump-nav';
+  nav.setAttribute('aria-label','페이지 바로가기');
+  nav.innerHTML='<span class="page-jump-label">바로가기</span>'+pageShortNames.map((name,i)=>`<button type="button" class="page-jump-button${i+1===currentPage?' current':''}" data-jump-page="${i+1}" aria-label="${i+1}페이지 ${name}"${i+1===currentPage?' disabled aria-current="page"':''}>${i+1}</button>`).join('');
+  section.querySelector('.topbar').after(nav);
+});
+const pageUnlock=document.createElement('dialog');
+pageUnlock.id='pageUnlockDialog';
+pageUnlock.className='lesson-dialog page-unlock-dialog';
+pageUnlock.setAttribute('aria-labelledby','pageUnlockTitle');
+pageUnlock.innerHTML='<h2 id="pageUnlockTitle">페이지 바로가기</h2><p id="pageUnlockGuide"></p><input id="pageUnlockCode" type="text" maxlength="12" autocomplete="off" placeholder="페이지 코드" aria-label="페이지 바로가기 코드"><p id="pageUnlockError" class="code-error" role="alert"></p><div class="actions"><button type="button" class="ghost" id="cancelPageUnlock">돌아가기</button><button type="button" class="primary" id="confirmPageUnlock">페이지 열기</button></div>';
+document.body.append(pageUnlock);
+let requestedPage=1;
+function openPageUnlock(page){requestedPage=page;document.getElementById('pageUnlockTitle').textContent=`${page}페이지 바로가기`;document.getElementById('pageUnlockGuide').textContent=`대주제 코드와 페이지 숫자를 붙여 입력하세요. (예: 저출산${page})`;document.getElementById('pageUnlockCode').value='';document.getElementById('pageUnlockError').textContent='';pageUnlock.showModal();document.getElementById('pageUnlockCode').focus()}
+function updatePageNav(page){document.querySelectorAll('.page-jump-button').forEach(button=>{const active=Number(button.dataset.jumpPage)===page;button.classList.toggle('current',active);button.disabled=active;if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current')})}
+document.querySelectorAll('.page-jump-button').forEach(button=>button.onclick=()=>openPageUnlock(Number(button.dataset.jumpPage)));
+document.getElementById('cancelPageUnlock').onclick=()=>pageUnlock.close();
+function confirmPageUnlock(){const input=document.getElementById('pageUnlockCode');if(input.value.trim()!==`저출산${requestedPage}`){document.getElementById('pageUnlockError').textContent='페이지 코드를 다시 확인해 주세요.';input.select();return}pageUnlock.close();go(requestedPage)}
+document.getElementById('confirmPageUnlock').onclick=confirmPageUnlock;
+document.getElementById('pageUnlockCode').onkeydown=e=>{if(e.key==='Enter')confirmPageUnlock()};
 // Newspaper layout, dotted evidence words and glossary interactions are unchanged.
 const article=screen(3).querySelector('.article');article.querySelector('h3').textContent=lesson.articleTitle;article.querySelector('.article-meta').textContent=lesson.meta;
 article.querySelector('.article-body').innerHTML=lesson.paragraphs.map(p=>'<p>'+esc(p).replace(/\[\[(.*?)\]\]/g,(_,w)=>`<button class="evidence-word" data-evidence="${w}">${w}</button>` )+'</p>').join('');

@@ -330,7 +330,7 @@
 </div>
 <div class="code-dialog-backdrop" id="codeModal" hidden><div class="code-dialog" role="dialog" aria-modal="true" aria-labelledby="codeDialogTitle"><div style="font-size:46px">🔐</div><h2 id="codeDialogTitle">수업 진행 코드</h2><p>오늘 탐구하는 대주제 코드를 입력하세요.</p><input id="teacherCode" inputmode="text" maxlength="10" autocomplete="off" placeholder="대주제"><div class="code-dialog-actions"><button class="ghost" id="cancelCode">돌아가기</button><button class="primary" id="confirmCode">확인</button></div></div></div>
 <div class="page-label" id="pageLabel">1페이지 사건 도착(오늘의 사건) · 저출산 사건</div><div class="toast" id="toast"></div><dialog class="lesson-dialog talk-dialog" id="discussionPop" aria-labelledby="talkTitle"><div class="discussion-pop-icon">🗣️</div><h2 id="talkTitle">친구와 이야기할 시간입니다.</h2><p class="speech-frame" id="speechFrame"></p><p class="speech-frame">왜냐하면 ______이기 때문입니다.</p><div class="my-prediction"><strong>내가 적은 예상</strong><p id="discussionPrediction"></p></div><p>친구의 생각을 듣고 “왜 그렇게 생각했어?”라고 물어보세요.</p><button class="primary" id="closeDiscussion">이야기를 마쳤어요</button></dialog>
-<script src="./cases.js"></script>
+<script src="./cases.js?v=20260917-4"></script>
 <script src="./case-content.js?v=20260917-3"></script>
 <script>
 const pageNames={1:'1페이지 사건 도착(오늘의 사건)',2:'2페이지 단서 추리(개별·짝 토의)',3:'3페이지 기사 수사(증거 표시)',4:'4페이지 자료 수사(통계·사진)',5:'5페이지 현장 확인(뉴스 영상)',6:'6페이지 비교 탐구(맞춤 비교판)',7:'7페이지 사건 해결(문장 완성)',8:'8페이지 탐정 보고서(이미지 저장)'};
@@ -365,9 +365,10 @@ document.getElementById('pairDone').onclick=()=>{const panel=document.getElement
 function finishDiscussion(){const pop=document.getElementById('discussionPop');pop.close();pop.hidden=true;state.pairCompleted=true;document.getElementById('pairDone').textContent='친구와 이야기했어요';document.getElementById('openNextClue').disabled=false;document.getElementById('openNextClue').focus()}
 document.getElementById('closeDiscussion').onclick=finishDiscussion;
 document.getElementById('discussionPop').addEventListener('cancel',e=>{e.preventDefault();finishDiscussion()});
-document.getElementById('openNextClue').onclick=()=>{if(!state.pairCompleted){notify('먼저 나의 예상을 적고 친구와 이야기해 주세요.');return}const modal=document.getElementById('codeModal');document.getElementById('teacherCode').value='';modal.hidden=false;setTimeout(()=>document.getElementById('teacherCode').focus(),0)};
+document.getElementById('openNextClue').onclick=()=>{if(!state.pairCompleted){notify('먼저 나의 예상을 적고 친구와 이야기해 주세요.');return}advanceClue()};
 function closeCodeModal(){document.getElementById('codeModal').hidden=true}
-function confirmTeacherCode(){if(document.getElementById('teacherCode').value.trim()!=='저출산'){notify('수업 진행 코드를 확인해 주세요.');document.getElementById('teacherCode').select();return}closeCodeModal();state.completedClues[state.clue]=true;if(state.clue<clues.length-1){state.clue++;document.getElementById('clueEnvelope').hidden=false;renderClue();window.scrollTo({top:0,behavior:'smooth'});notify('다음 단서 봉투가 도착했습니다!')}else{renderClueIndex();document.getElementById('openNextClue').hidden=true;document.getElementById('finishClues').hidden=false;document.getElementById('finishClues').disabled=false;notify('모든 단서를 확인했습니다.');askArticleStart()}}
+function advanceClue(){closeCodeModal();state.completedClues[state.clue]=true;if(state.clue<clues.length-1){state.clue++;document.getElementById('clueEnvelope').hidden=false;renderClue();window.scrollTo({top:0,behavior:'smooth'});notify('다음 단서 봉투가 도착했습니다!')}else{renderClueIndex();document.getElementById('openNextClue').hidden=true;document.getElementById('finishClues').hidden=false;document.getElementById('finishClues').disabled=false;notify('모든 단서를 확인했습니다.');askArticleStart()}}
+function confirmTeacherCode(){if(document.getElementById('teacherCode').value.trim()!=='저출산'){notify('수업 진행 코드를 확인해 주세요.');document.getElementById('teacherCode').select();return}advanceClue()}
 document.getElementById('cancelCode').onclick=closeCodeModal;
 document.getElementById('confirmCode').onclick=confirmTeacherCode;
 document.getElementById('closeClueReview').onclick=closeClueReview;

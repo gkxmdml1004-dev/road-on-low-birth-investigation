@@ -40,6 +40,11 @@ document.querySelectorAll('.screen').forEach(section=>{
   nav.setAttribute('aria-label','페이지 바로가기');
   nav.innerHTML='<span class="page-jump-label">바로가기</span>'+pageShortNames.map((name,i)=>`<button type="button" class="page-jump-button${i+1===currentPage?' current':''}" data-jump-page="${i+1}" aria-label="${i+1}페이지 ${name}"${i+1===currentPage?' disabled aria-current="page"':''}>${i+1}</button>`).join('');
   section.querySelector('.topbar').after(nav);
+  const articleShortcut=document.createElement('div');
+  articleShortcut.className='article-shortcut';
+  articleShortcut.innerHTML=`<button type="button" class="article-shortcut-button"${currentPage===3?' disabled aria-current="page"':''}>${currentPage===3?'현재 기사문을 보고 있습니다':'기사문 바로가기'}</button>`;
+  if(currentPage!==3)articleShortcut.querySelector('button').onclick=()=>openPageUnlock(3);
+  section.querySelector('.shell').append(articleShortcut);
 });
 const pageUnlock=document.createElement('dialog');
 pageUnlock.id='pageUnlockDialog';

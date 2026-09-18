@@ -49,3 +49,65 @@
 .talk-dialog .discussion-pop-icon{font-size:42px}.lesson-dialog .actions{align-items:stretch}
 .lesson-dialog .actions button{line-height:1.5;flex:1 1 220px}
 .report-section blockquote{overflow-wrap:anywhere}
+
+
+/* Aging case 3: show the field activity itself instead of an empty dark frame. */
+.kiosk-field-panel{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;align-items:center;width:100%;min-height:420px;padding:38px;color:#fff;text-align:left}
+.kiosk-field-visual{align-self:stretch;border-radius:28px;background:linear-gradient(145deg,#edf7f5,#dcebea);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#173f3b;font-weight:900;text-align:center}
+.kiosk-field-visual img{width:min(260px,85%);max-height:245px;object-fit:contain;filter:drop-shadow(0 12px 18px rgba(5,28,27,.18))}
+.kiosk-field-visual span{margin-top:12px;font-size:20px}
+.kiosk-field-copy{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.kiosk-field-copy .kiosk-eyebrow{margin:0 0 10px;color:#f7c95b;font-size:18px;font-weight:900}
+.kiosk-field-copy h3{margin:0 0 18px;color:#fff;font-size:clamp(28px,2.4vw,40px);line-height:1.28}
+.kiosk-field-copy>p:not(.kiosk-eyebrow){margin:0 0 22px;font-size:20px;line-height:1.7}
+.kiosk-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 22px;padding:0;list-style:none}
+.kiosk-steps li{display:flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.3);border-radius:16px;background:rgba(255,255,255,.09);padding:12px 10px;font-size:17px;font-weight:850}
+.kiosk-steps b{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:#f7c95b;color:#173f3b}
+.kiosk-field-copy .field-links{justify-content:flex-start}
+@media(max-width:850px){.kiosk-field-panel{grid-template-columns:1fr;padding:24px;min-height:0}.kiosk-field-visual{min-height:240px}.kiosk-field-copy h3{font-size:28px}.kiosk-steps{grid-template-columns:1fr}}
+
+
+/* Optional follow-up reading after all three aging cases. */
+.more-aging-cases{margin:34px 0 18px;padding:34px;border:2px solid #b8c8df;border-radius:28px;background:linear-gradient(145deg,#f3f6ff,#fff7ef)}
+.more-aging-kicker{display:inline-block;margin-bottom:8px;border-radius:999px;background:#ef7e4d;color:#fff;padding:7px 13px;font-weight:900}
+.more-aging-cases h2{margin:0 0 8px;font-size:clamp(28px,3vw,42px);color:#213d72}
+.more-aging-cases>p{margin:0 0 22px;font-size:19px;color:#52616f}
+.more-aging-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.more-aging-grid a{display:grid;place-items:center;min-height:92px;padding:18px;text-align:center;border:2px solid #c4cfdf;border-radius:20px;background:#fff;color:#193b57;text-decoration:none;box-shadow:0 5px 0 rgba(55,76,112,.12);transition:transform .16s,border-color .16s}
+.more-aging-grid a:hover,.more-aging-grid a:focus-visible{transform:translateY(-3px);border-color:#ef7e4d;outline:none}
+.more-aging-grid strong{font-size:clamp(21px,2vw,28px);color:#173f3b}
+.more-aging-grid span{font-size:17px;line-height:1.5}
+.more-aging-grid em{margin-top:auto;color:#dc6738;font-style:normal;font-weight:900}
+@media(max-width:760px){.more-aging-cases{padding:22px}.more-aging-grid{grid-template-columns:1fr}}
+
+
+/* Make the learner's voice and optional reading clearly different from article narration. */
+.article-interview{margin:26px 0 8px;padding:22px 24px;border:3px solid #ef7e4d;border-left-width:10px;border-radius:18px;background:#fff7eb;color:#243d3a}
+.article-interview span{display:inline-block;margin-bottom:8px;color:#c9562c;font-size:15px;font-weight:950;letter-spacing:.04em}
+.article-interview p{margin:0 0 10px!important;font-size:clamp(21px,2vw,28px)!important;line-height:1.65!important;font-weight:850}
+.article-interview cite{display:block;color:#6b6d68;font-style:normal;font-weight:800;text-align:right}
+.article-related{margin-top:24px;padding-top:22px;border-top:2px dashed #b8c8c4}
+.article-related h3{margin:0 0 6px;font-size:24px}
+.article-related>p{margin:0 0 14px;color:#66736f;line-height:1.55}
+.article-related>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.article-related a{display:grid;place-items:center;min-height:58px;padding:12px 14px;text-align:center;border:2px solid #c6d3d0;border-radius:15px;background:#fff;color:#173f3b;text-decoration:none}
+.article-related a:hover,.article-related a:focus-visible{border-color:#ef7e4d;outline:none;background:#fffaf2}
+.article-related strong{font-size:18px}
+.article-related span{font-size:14px;line-height:1.45;color:#5e6c68}
+
+@media(max-width:560px){.article-related>div{grid-template-columns:1fr}.more-aging-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.article-related a{grid-template-columns:1fr auto;column-gap:10px;text-align:left}
+.article-related-arrow{font-size:25px;font-weight:950;color:#e76739;transition:transform .16s}
+.article-related a:hover .article-related-arrow,.article-related a:focus-visible .article-related-arrow{transform:translateX(4px)}
+
+
+
+/* Reveal compact follow-up choices only after the learner finishes the report. */
+.more-aging-cases[hidden]{display:none!important}
+.more-aging-cases{margin:24px auto 14px;padding:22px 24px;max-width:980px;border-radius:22px}
+.more-aging-cases h2{font-size:clamp(24px,2.5vw,34px)}
+.more-aging-cases>p{margin-bottom:15px;font-size:17px}
+.more-aging-grid{gap:10px}
+.more-aging-grid a{min-height:56px;padding:10px 14px;border-radius:14px;box-shadow:0 3px 0 rgba(55,76,112,.12)}
+.more-aging-grid strong{font-size:clamp(18px,1.6vw,22px)}

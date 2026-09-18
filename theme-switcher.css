@@ -21,3 +21,95 @@
 .screen[data-page="5"] .card::before{background-image:url("./assets/evidence-map.png")}
 .screen[data-page="7"] .card::before{background-image:url("./assets/idea-bulb.png")}
 @media(max-width:700px){.shell::before,.shell::after{width:44px;height:44px;opacity:.13}.shell{outline-offset:-6px}.screen[data-page="3"] .article-layout::before,.screen[data-page="5"] .card::before,.screen[data-page="7"] .card::before{width:42px;height:42px}}
+
+.theme-choice:not(.coming){display:grid;grid-template-columns:82px 1fr;align-items:center;justify-content:initial}
+.theme-choice>img{width:74px;height:74px;object-fit:contain;filter:drop-shadow(0 4px 5px rgba(34,44,43,.12))}
+.theme-choice-copy{display:flex;flex-direction:column;gap:7px}
+.theme-selector-button{display:inline-flex;align-items:center;gap:7px}
+.theme-selector-button img{width:34px;height:34px;object-fit:contain}
+@media(max-width:650px){.theme-choice:not(.coming){grid-template-columns:64px 1fr}.theme-choice>img{width:58px;height:58px}.theme-selector-button img{width:28px;height:28px}}
+
+
+/* Responsive work area: decoration follows the viewport without consuming activity space. */
+.screen{padding-left:clamp(8px,1.4vw,22px);padding-right:clamp(8px,1.4vw,22px)}
+.shell{width:min(100%,1480px);max-width:none}
+.card{padding:clamp(20px,2.7vw,42px)}
+.screen[data-page="2"]{padding-left:clamp(6px,1vw,16px);padding-right:clamp(6px,1vw,16px)}
+.screen[data-page="2"] .shell{width:min(100%,1540px)}
+.screen[data-page="2"] .card{padding:clamp(10px,1.2vw,16px)}
+.screen[data-page="2"] .clue-layout{grid-template-columns:minmax(0,1.45fr) minmax(340px,.7fr);gap:12px}
+.clue-stage:before{inset:10px}
+.thinking-box{padding:clamp(12px,1.3vw,18px)}
+@media(max-width:980px){.screen[data-page="2"] .clue-layout{grid-template-columns:1fr;height:auto}.clue-stage{min-height:500px}.clue-side{grid-template-columns:1fr 1fr;grid-template-rows:auto}.thinking-box{min-height:360px}}
+@media(max-width:700px){.screen{padding-left:6px;padding-right:6px}.shell{border-width:2px;outline:none}.card{border-radius:18px;padding:18px 14px}.screen[data-page="2"] .clue-side{grid-template-columns:1fr}.clue-stage{min-height:430px}.clue-index{margin-left:4px;overflow-x:auto}.clue-index-tab{min-width:112px}}
+
+
+/* Article alignment and simplified top navigation. */
+.progress{display:none!important}
+.topbar{margin-bottom:10px}
+.page-jump-nav{margin-bottom:12px}
+.screen[data-page="3"] .article-layout::before{display:none!important;content:none!important}
+.screen[data-page="3"] .investigation-head::after{content:"";width:52px;height:52px;margin-left:auto;background:url("./assets/evidence-document.png") center/contain no-repeat;opacity:.78;flex:0 0 auto}
+.screen[data-page="3"] .investigation-head{grid-template-columns:auto 1fr auto}
+.screen[data-page="3"] .article-layout{width:100%;align-items:start}
+.screen[data-page="3"] .article{min-width:0;width:100%}
+@media(max-width:700px){.screen[data-page="3"] .investigation-head{grid-template-columns:1fr}.screen[data-page="3"] .investigation-head::after{display:none}.topbar{margin-bottom:6px}.page-jump-nav{margin-bottom:8px}}
+
+
+/* v6: distinct topic palettes, purposeful imagery, compact navigation. */
+body.theme-lowbirth{background:#dcefeb}
+body.theme-aging{background:#e6ecf8}
+.theme-lowbirth .screen{background-color:#eaf6f2;background-image:radial-gradient(circle at 12% 18%,rgba(34,126,116,.08) 0 2px,transparent 3px);background-size:38px 38px}
+.theme-aging .screen{background-color:#edf1fa;background-image:radial-gradient(circle at 12% 18%,rgba(65,83,139,.08) 0 2px,transparent 3px);background-size:38px 38px}
+.shell{outline:none;border:2px solid color-mix(in srgb,var(--detective-line) 30%,transparent)}
+.shell::before,.shell::after{display:none!important;content:none!important}
+.intro-card::after{display:none!important;content:none!important}
+.screen[data-page="3"] .investigation-head::after,.screen[data-page="5"] .card::before,.screen[data-page="7"] .card::before{display:none!important;content:none!important}
+.brand{gap:10px;font-size:clamp(17px,1.35vw,22px);letter-spacing:-.04em}
+.brand-mark{width:46px;height:46px;font-size:17px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.brand-text{font-weight:950}
+.theme-selector-button{min-height:42px;padding:5px 12px;font-size:16px;font-weight:950;border-width:2px;background:#fff;box-shadow:0 3px 0 rgba(37,62,86,.1)}
+.theme-selector-button img{width:30px;height:30px}
+.theme-aging .theme-selector-button{color:#304678;border-color:#7f91bd;background:#f8f9ff}
+.theme-lowbirth .theme-selector-button{color:#155e58;border-color:#6ba99f;background:#f7fffc}
+.theme-choice.lowbirth{background:#e4f5ef;border-color:#4f9e91}.theme-choice.aging{background:#e8edfa;border-color:#7185b6}
+.intro-card .mission{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:22px 34px;align-items:center}
+.intro-card .intro-copy{max-width:none}
+.theme-hero{align-self:stretch;min-height:270px;border-radius:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:8px}
+.theme-lowbirth .theme-hero{background:linear-gradient(145deg,#dff4ed,#fff4c9);border:3px solid #69aa9d}
+.theme-aging .theme-hero{background:linear-gradient(145deg,#dfe7fa,#ffe8dc);border:3px solid #788ab7}
+.theme-hero img{width:min(190px,75%);height:150px;object-fit:contain;filter:drop-shadow(0 8px 8px rgba(35,46,65,.12))}
+.theme-hero strong{font-size:clamp(28px,3vw,42px);font-weight:950;color:var(--detective-line)}
+.hero-case-number{display:inline-grid;place-items:center;min-width:1.35em;height:1.35em;margin-left:.12em;border-radius:50%;font-style:normal;font-size:.78em;line-height:1;background:var(--detective-accent);color:#fff;box-shadow:0 4px 0 rgba(34,45,67,.16)}
+.theme-lowbirth .hero-case-number{background:#f47a40}.theme-aging .hero-case-number{background:#e7774e}
+.theme-hero span{font-weight:750;line-height:1.45;color:#52615e;word-break:keep-all}
+.intro-card .rule-strip,.intro-card .intro-actions{grid-column:1/-1}
+.compare-column{background:#f7f8fb!important;border:2px solid #bdc8d4!important;min-height:0}
+.compare-column h3{min-height:3em;display:flex;align-items:center;line-height:1.45}
+.compare-card{cursor:pointer;border:2px solid #cbd4dc;background:#fff}
+.compare-card:hover{border-color:var(--detective-line)}
+.compare-card.wrong{border-color:#d65b5b;background:#fff0ef;animation:answerShake .28s ease}
+.compare-card.correct{border-color:#2b8a65;background:#e5f6ee;box-shadow:0 0 0 3px rgba(43,138,101,.12)}
+@keyframes answerShake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.case-celebration{position:fixed;inset:0;z-index:500;pointer-events:none;display:grid;place-items:center;background:rgba(20,38,52,.13);animation:celebrateFade 2.6s both;overflow:hidden}
+.celebration-card{position:relative;z-index:2;background:#fffdf6;border:5px solid var(--detective-accent);border-radius:28px;padding:28px 44px;text-align:center;box-shadow:0 24px 70px rgba(23,40,56,.28)}
+.celebration-card .fanfare{font-size:54px;display:block}.celebration-card strong{display:block;font-size:34px;color:var(--detective-line)}.celebration-card p{font-size:21px;font-weight:850;margin:10px 0 0}
+.case-celebration i{position:absolute;top:-40px;left:var(--x);width:14px;height:22px;border-radius:70% 30% 70% 30%;background:hsl(calc(var(--x)*3.6),75%,62%);animation:petalFall 2.1s var(--d) ease-in forwards;transform:rotate(var(--r))}
+@keyframes petalFall{to{top:110%;transform:translateX(55px) rotate(calc(var(--r) + 420deg))}}
+@keyframes celebrateFade{0%{opacity:0}12%,78%{opacity:1}100%{opacity:0}}
+.precise-location .scope-badge{padding:14px;border-radius:14px;background:#edf3fb;margin:10px 0;line-height:1.5}.precise-location .scope-badge.busan{background:#fff0e7}.precise-location .scope-badge strong{font-size:18px}.location-link-list{display:grid;gap:8px;margin:12px 0}
+.trend-panel{width:min(720px,100%);margin:auto;text-align:left}.trend-panel>h3{color:#fff;font-size:28px}.trend-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;margin:13px 0;color:#fff;font-weight:850}.trend-row b{display:flex;align-items:center;min-width:72px;width:var(--w);height:38px;padding:0 10px;border-radius:9px;background:#6f85bc;color:#fff;white-space:nowrap}.trend-row.busan b{background:#e77d54}
+.trend-question{display:inline-block;margin:0 0 12px;padding:9px 14px;border-radius:999px;background:#fff4cf;color:#243b68;font-size:20px;font-weight:950}.trend-note{margin:14px 0;color:#eef3ff;font-size:14px;line-height:1.55;font-weight:700}
+@media(max-width:900px){.intro-card .mission{grid-template-columns:1fr}.theme-hero{min-height:220px}.intro-card .rule-strip,.intro-card .intro-actions{grid-column:auto}.theme-hero img{height:120px}.trend-row{grid-template-columns:100px 1fr}}
+@media(max-width:650px){.brand{font-size:16px}.brand-mark{width:40px;height:40px}.theme-selector-button{font-size:14px}.theme-hero{min-height:190px;padding:16px}.theme-hero img{height:100px}.celebration-card{padding:24px 20px;width:calc(100% - 44px)}}
+
+.theme-aging .case-nav-button.current{background:#344f86!important;border-color:#e7774e!important;color:#fff!important;box-shadow:0 4px 0 #e7774e,0 7px 14px rgba(52,79,134,.2)}
+.theme-lowbirth .case-nav-button.current{background:#155f59!important;border-color:#f0b937!important;color:#fff!important;box-shadow:0 4px 0 #f0b937,0 7px 14px rgba(21,95,89,.18)}
+
+/* v7: use the full viewport and keep decorative assets only where they explain a choice. */
+.screen{padding-left:clamp(4px,.55vw,10px);padding-right:clamp(4px,.55vw,10px)}
+.shell,.screen[data-page="2"] .shell{width:100%;max-width:none;margin:0;border:0!important;outline:0!important;box-shadow:none!important}
+.shell::before,.shell::after,.intro-card::after{display:none!important;content:none!important;background-image:none!important}
+.theme-choice.lowbirth,.theme-choice.aging{display:grid!important;grid-template-columns:96px minmax(0,1fr);gap:18px}
+.theme-choice>img{display:block!important;visibility:visible!important;opacity:1!important;width:88px;height:88px}
+@media(max-width:650px){.theme-choice.lowbirth,.theme-choice.aging{grid-template-columns:68px minmax(0,1fr)}.theme-choice>img{width:64px;height:64px}}

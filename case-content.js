@@ -26,6 +26,7 @@ document.querySelectorAll('.case-chip').forEach(el=>{
 // Original opening screen and three rules stay intact. Change its copy only.
 screen(1).querySelector('.lead').textContent=`${lesson.title}. ${lesson.question}`;
 document.querySelector('.intro-cue').textContent='어떤 일이 있었을까요? 먼저 서로 질문하고, 사건 봉투를 열어보세요.';
+const themeHero=document.createElement('aside');themeHero.className='theme-hero';themeHero.innerHTML=`<img src="./assets/theme-lowbirth.png" alt=""><strong>저출산 사건 <em class="hero-case-number">${caseIndex+1}</em></strong><span>단서를 살펴보고 사회의 변화를 찾아보세요.</span>`;screen(1).querySelector('.intro-copy').after(themeHero);
 const selector=document.createElement('dialog');selector.id='caseSelector';selector.setAttribute('aria-labelledby','caseSelectorTitle');selector.innerHTML=`<h2 id="caseSelectorTitle">수업 사건 선택</h2><p>오늘 탐구하는 대주제 코드를 입력하세요.</p><input id="caseCode" inputmode="text" maxlength="10" autocomplete="off" placeholder="대주제" aria-label="수업 진행 코드"><p id="caseCodeError" role="alert"></p><div id="caseChoices" hidden><p>선택한 사건만 공개됩니다. 사건을 바꾸면 현재 활동은 처음부터 시작합니다.</p>${CASES.map((d,i)=>`<p><a class="ghost" href="?case=${i+1}">사건 ${i+1} · ${esc(d.title)}</a></p>`).join('')}</div><div class="actions"><button class="ghost" id="closeCaseSelector">돌아가기</button><button class="primary" id="unlockCases">확인</button></div>`;document.body.append(selector);
 let requestedCaseIndex=null;
 function openCaseUnlock(index){requestedCaseIndex=index;document.getElementById('caseSelectorTitle').textContent=`저출산 사건 0${index+1} 열기`;document.getElementById('caseCode').value='';document.getElementById('caseCodeError').textContent='';document.getElementById('caseChoices').hidden=true;document.getElementById('unlockCases').hidden=false;selector.showModal();document.getElementById('caseCode').focus()}
@@ -65,7 +66,7 @@ const article=screen(3).querySelector('.article');article.querySelector('h3').te
 article.querySelector('.article-body').innerHTML=lesson.paragraphs.map(p=>'<p>'+esc(p).replace(/\[\[(.*?)\]\]/g,(_,w)=>`<button class="evidence-word" data-evidence="${w}">${w}</button>` )+'</p>').join('');
 article.querySelector('.micro').innerHTML=`출처: ${(lesson.sources||[[lesson.sourceTitle,lesson.source]]).map(([title,url])=>external(title,url)).join('<br>')}<br>기사와 수업 주제를 연결해 어린이용으로 재구성함.`;
 screen(3).querySelector('.glossary-list').innerHTML=lesson.glossary.map(([word,meaning],i)=>`<button class="glossary-button" aria-expanded="false" data-meaning="${esc(meaning)}"><span class="glossary-number">${i+1}</span>${esc(word)}</button>`).join('');
-const caution=document.createElement('p');caution.className='micro';caution.textContent=lesson.caution;screen(3).querySelector('.word-help').append(caution);
+const caution=document.createElement('p');caution.className='article-caution';caution.textContent=`자료 읽기 주의 · ${lesson.caution}`;screen(3).querySelector('.word-help').append(caution);
 // Use the existing two-panel data cards and original answer buttons.
 const stats=lesson.stats;
 screen(4).querySelector('.data-grid').innerHTML=stats.map(([value,title,text])=>`<div class="data-card"><div class="big-stat">${value}</div><h3>${title}</h3><p>${text}</p></div>`).join('');
@@ -80,10 +81,10 @@ const fieldChecks=lesson.checks;
 screen(5).querySelector('.watch-list').innerHTML=`<h3>${caseIndex===0?'영상·학교현황에서 찾기':'현장 자료에서 찾기'}</h3>${fieldChecks.map(text=>`<label class="watch-item"><input type="checkbox" class="watch-check"> ${esc(text)}</label>`).join('')}<p class="micro">한 가지 이상 직접 확인했다면 표시하세요. 자료와 지도는 새 창에서 열립니다.</p>`;
 // Keep the two comparison columns and three sentence-card groups, updating their focus.
 screen(6).querySelector('.lead').textContent=lesson.comparePrompt;
-screen(6).querySelectorAll('.compare-column').forEach((col,i)=>{col.querySelector('h3').textContent=comparisonLabels[i];col.querySelectorAll('.compare-card').forEach(b=>b.remove());lesson.compareOptions[i].forEach(text=>{const b=document.createElement('button');b.className='compare-card';b.dataset.side=i?'hard':'good';b.textContent=text;col.append(b);});});
-const headings=['① 어떤 변화가 있었나요','② 어떤 어려움이 생겼나요','③ 어떻게 달라졌나요'];
+screen(6).querySelectorAll('.compare-column').forEach((col,i)=>{col.querySelector('h3').textContent=`${i+1}. ${comparisonLabels[i]}`;col.querySelectorAll('.compare-card').forEach(b=>b.remove());lesson.compareOptions[i].forEach(text=>{const b=document.createElement('button');b.className='compare-card';b.dataset.side=i?'hard':'good';b.dataset.correct=String(text===lesson.compareCorrect[i]);b.textContent=text;col.append(b);});});
+const headings=['① 사회의 변화','② 변화로 생긴 어려움','③ 해결을 위한 노력'];
 screen(7).querySelectorAll('.card>h3').forEach((h,i)=>h.textContent=headings[i]);
-screen(7).querySelector('.lead').textContent='학생 수의 변화가 학교생활에 미친 영향을 낱말 카드로 설명해 보세요.';
+screen(7).querySelector('.lead').textContent='사회의 변화로 생긴 어려움과 이를 해결하려는 노력을 낱말 카드로 설명해 보세요.';
 screen(7).querySelectorAll('.word-options').forEach((group,i)=>group.innerHTML=lesson.solveOptions[i].map(text=>`<button class="word-card">${text}</button>`).join(''));
 const socialNote=document.createElement('p');socialNote.className='micro';socialNote.textContent='저출산은 태어나는 아기가 적은 현상이에요. 지역의 학생 수는 사람들이 다른 곳으로 이사하는 일에도 영향을 받아요.';screen(7).querySelector('.card').append(socialNote);
 const report=screen(8).querySelector('.report');report.querySelector(':scope>p').innerHTML=`<strong>사건:</strong> ${esc(lesson.articleTitle)}`;report.querySelector(':scope>.micro').textContent='자료 출처: '+lesson.meta+' · 어린이용 재구성 기사';

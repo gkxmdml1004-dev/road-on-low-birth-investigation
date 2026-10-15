@@ -1,5 +1,7 @@
 (() => {
   const inAging = location.pathname.includes('/aging/');
+  const params = new URLSearchParams(location.search);
+  let isTopicGate = !inAging && !params.has('case');
   document.body.classList.add(inAging ? 'theme-aging' : 'theme-lowbirth');
   const assetBase = inAging ? '../assets/' : './assets/';
   const dialog = document.createElement('dialog');
@@ -15,10 +17,14 @@
       <a class="theme-choice aging" href="${inAging ? './?case=1' : './aging/?case=1'}">
         <img src="${assetBase}theme-aging.png" alt=""><span class="theme-choice-copy"><strong>고령화</strong><span>인구와 생활환경의 변화</span></span>
       </a>
+      <a class="theme-choice petculture" href="${inAging ? '../pet-culture/' : './pet-culture/'}">
+        <img src="${inAging ? '../pet-culture/' : './pet-culture/'}assets/dog-care.jpg" alt=""><span class="theme-choice-copy"><strong>반려동물 문화</strong><span>반려동물과 함께하는 생활</span></span>
+      </a>
+      <div class="theme-choice coming"><strong>1인 가구</strong><span>새로운 수업 준비 중</span></div>
       <div class="theme-choice coming"><strong>지능정보화</strong><span>준비 중</span></div>
       <div class="theme-choice coming"><strong>세계화</strong><span>준비 중</span></div>
     </div>
-    <button type="button" class="ghost close-theme-selector">현재 주제로 돌아가기</button>`;
+    <button type="button" class="ghost close-theme-selector" ${isTopicGate ? 'hidden' : ''}>현재 주제로 돌아가기</button>`;
   document.body.append(dialog);
 
   document.querySelectorAll('.topbar').forEach(bar => {
@@ -29,6 +35,27 @@
     button.onclick = () => dialog.showModal();
     bar.append(button);
   });
+  document.querySelectorAll('.brand').forEach(brand => {
+    brand.classList.add('brand-home-button');
+    brand.setAttribute('role', 'button');
+    brand.setAttribute('tabindex', '0');
+    brand.setAttribute('aria-label', '주제 선택 화면으로 돌아가기');
+    const goHome = () => {
+      if (inAging) location.href = '../';
+      else {
+        isTopicGate = true;
+        history.replaceState(null, '', location.pathname);
+        dialog.querySelector('.close-theme-selector').hidden = true;
+        if (!dialog.open) dialog.showModal();
+      }
+    };
+    brand.addEventListener('click', goHome);
+    brand.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); goHome(); }
+    });
+  });
   dialog.querySelector('.close-theme-selector').onclick = () => dialog.close();
+  dialog.addEventListener('cancel', event => { if (isTopicGate) event.preventDefault(); });
+  if (isTopicGate) requestAnimationFrame(() => dialog.showModal());
 })();
 

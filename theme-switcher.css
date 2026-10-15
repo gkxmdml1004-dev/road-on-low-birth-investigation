@@ -113,3 +113,11 @@ body.theme-aging{background:#e6ecf8}
 .theme-choice.lowbirth,.theme-choice.aging{display:grid!important;grid-template-columns:96px minmax(0,1fr);gap:18px}
 .theme-choice>img{display:block!important;visibility:visible!important;opacity:1!important;width:88px;height:88px}
 @media(max-width:650px){.theme-choice.lowbirth,.theme-choice.aging{grid-template-columns:68px minmax(0,1fr)}.theme-choice>img{width:64px;height:64px}}
+
+/* v8: topic selection is the public home screen. */
+.theme-choice.petculture{display:grid!important;grid-template-columns:96px minmax(0,1fr);gap:18px;background:#edeaff;border-color:#7669bd}
+.theme-choice.petculture img{display:block!important;visibility:visible!important;opacity:1!important;width:88px;height:88px;border-radius:50%;object-fit:cover;filter:drop-shadow(0 4px 5px rgba(34,44,43,.12))}
+.brand-home-button{cursor:pointer;border-radius:12px}
+.brand-home-button:hover{background:rgba(255,255,255,.55)}
+.brand-home-button:focus-visible{outline:4px solid #ffd166;outline-offset:3px}
+@media(max-width:650px){.theme-choice.petculture{grid-template-columns:68px minmax(0,1fr)}.theme-choice.petculture img{width:64px;height:64px}}

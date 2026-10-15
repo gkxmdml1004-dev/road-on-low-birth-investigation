@@ -1,5 +1,5 @@
 'use strict';
-const VERSION='20261015-53',STORAGE='roadon-pet-culture-v1',ACCESS_STORAGE='roadon-pet-culture-access-v1',TEACHER_CODE='2026';
+const VERSION='20261016-54',STORAGE='roadon-pet-culture-v1',ACCESS_STORAGE='roadon-pet-culture-access-v1',TEACHER_CODE='2026';
 const STUDENT_CODE_CASES={'알림장':'dog-care','호텔':'dog-care','장애물':'festival','사진부스':'festival','운동회':'festival','보호자':'guardian-class','학교':'guardian-class','보호자학교':'guardian-class','시민교육':'guardian-class'};
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -208,7 +208,7 @@ document.addEventListener('dragleave',e=>{e.target.closest('[data-rank-slot]')?.
 document.addEventListener('drop',e=>{const slot=e.target.closest('[data-rank-slot]');if(!slot||slot.disabled)return;e.preventDefault();const id=e.dataTransfer.getData('text/plain')||draggedSpecies;slot.classList.remove('drag-over');if(id)placeSpecies(id,Number(slot.dataset.rankSlot));draggedSpecies='';});
 document.addEventListener('dragend',e=>{e.target.closest('[data-species-choice]')?.classList.remove('dragging');document.querySelectorAll('.rank-slot.drag-over').forEach(el=>el.classList.remove('drag-over'));draggedSpecies='';});
 $('dialog').addEventListener('cancel',e=>{if(state.page===5&&$('dialog-content').querySelector('[data-action="skip-save"]')){e.preventDefault();chooseSave(false);}});
-$('teacher').onclick=teacher;$('restart-page').onclick=restartCurrentPage;$('switch-user').onclick=switchUser;document.querySelector('.brand').onclick=e=>{e.preventDefault();if(access)navigate(access.role==='student'?3:1);};render();
+$('teacher').onclick=teacher;$('restart-page').onclick=restartCurrentPage;$('switch-user').onclick=switchUser;render();
 
 
 

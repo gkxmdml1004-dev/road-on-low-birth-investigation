@@ -1,5 +1,5 @@
 'use strict';
-const VERSION='20261015-52',STORAGE='roadon-pet-culture-v1',ACCESS_STORAGE='roadon-pet-culture-access-v1',TEACHER_CODE='사회변화';
+const VERSION='20261015-53',STORAGE='roadon-pet-culture-v1',ACCESS_STORAGE='roadon-pet-culture-access-v1',TEACHER_CODE='2026';
 const STUDENT_CODE_CASES={'알림장':'dog-care','호텔':'dog-care','장애물':'festival','사진부스':'festival','운동회':'festival','보호자':'guardian-class','학교':'guardian-class','보호자학교':'guardian-class','시민교육':'guardian-class'};
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

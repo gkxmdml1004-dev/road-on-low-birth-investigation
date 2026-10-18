@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#176b66">
+  <title>ROAD ON 사회 변화 탐정단 · 외국인 이주민</title>
+  <link rel="stylesheet" href="styles.css?v=20261018-29">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../diverse-culture/" aria-label="다양한 문화 주제 선택 화면으로 돌아가기">
+      <span class="brand-mark">RO</span><span class="brand-name">ROAD ON <b>사회 변화 탐정단</b></span>
+    </a>
+    <nav id="steps" aria-label="수업 단계">
+      <button class="step active" data-page="1"><span>1</span>통계 변화</button>
+      <button class="step" data-page="2"><span>2</span>유형 통계</button>
+      <button class="step" data-page="3"><span>3</span>생활 모습</button>
+      <button class="step" data-page="4"><span>4</span>발견 기록</button>
+      <button class="step" data-page="5"><span>5</span>생각 모으기</button>
+    </nav>
+    <div class="top-tools">
+      <span class="user-badge" id="user-badge" hidden></span>
+      <button class="quiet switch-user" id="switch-user" hidden>역할 바꾸기</button>
+      <span class="topic-label">다양한 문화 · 외국인 이주민</span>
+      <button class="quiet" id="text-size" aria-pressed="false"><span aria-hidden="true">🔍</span> 글자 크게</button>
+      <button class="quiet" id="restart"><span aria-hidden="true">↻</span> 다시 하기</button>
+      <button class="quiet" id="guide">수업 안내</button>
+    </div>
+  </header>
+  <main id="app"></main>
+  <footer><span>우리 사회의 다양한 문화 살펴보기</span><span id="page-label"></span></footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+  <script src="app.js?v=20261018-29"></script>
+</body>
+</html>
+
+
+
+

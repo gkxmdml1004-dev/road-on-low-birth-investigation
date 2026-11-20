@@ -21,6 +21,23 @@ function markup(text){
   }
   return html+esc(text.slice(last));
 }
+function hanjaHTML(hanja,plain){
+  if(!hanja)return '';
+  const [head,...tail]=hanja.split(' · ');
+  const readings=tail.join(' · ').split(',').map(item=>{
+    const m=item.trim().match(/^(.+)\(([^)]+)\)$/);
+    return m?`${m[2]} ${m[1].trim()}`:item.trim();
+  }).join(' · ');
+  return `<small>한자로 살펴보기</small><span class="hanja-card"><b>${esc(head)}</b><i>${esc(readings)}</i><em>${esc(plain)}</em></span>`;
+}
+function titleHanja(hanja){
+  if(!hanja)return '';
+  const head=hanja.split(' · ')[0];
+  const inParens=head.match(/\(([^)]+)\)/);
+  if(inParens)return `(${inParens[1]})`;
+  const chars=(head.match(/[\u3400-\u9fff]+/g)||[]).join('');
+  return chars?`(${chars})`:'';
+}
 function renderNav(){
   $('topic-nav').innerHTML=TRAINING_DATA.map((t,i)=>`<button class="${i===state.topic?'active':''}" data-topic="${i}" style="--topic:${t.color}">${esc(t.title)} <small>${t.cases.length}</small></button>`).join('');
   const topic=TRAINING_DATA[state.topic];
@@ -33,7 +50,7 @@ function renderArticle(){
   $('open-student-app').href=c.id?`${topic.appUrl}${topic.slug==='low-birth'||topic.slug==='aging'?`?case=${state.case+1}`:''}`:topic.appUrl;
   const images=c.images.length?`<div class="article-images">${c.images.map(x=>`<figure><img src="${esc(x.src)}" alt="${esc(x.alt)}"><figcaption>${esc(x.caption)}</figcaption></figure>`).join('')}</div>`:'';
   $('article-card').innerHTML=`<div class="paper-meta"><span>ROAD ON 어린이 사회 신문</span><b>${esc(topic.title)}</b></div><h1>${esc(c.title)}</h1><div class="source-name"><span><b>기사 출처</b>${esc(c.meta)}</span><span><b>기사 날짜</b>${esc(c.articleDate)}</span></div>${images}<div class="article-body">${c.paragraphs.map(p=>`<p>${markup(p)}</p>`).join('')}</div>${c.note?`<div class="article-note"><strong>자료 읽기 주의</strong><br>${esc(c.note)}</div>`:''}${c.sourceUrl?`<a class="article-source" href="${esc(c.sourceUrl)}" target="_blank" rel="noopener">원문: ${esc(c.sourceLabel)} ↗</a>`:''}`;
-  $('glossary').innerHTML=(c.glossary.map(([w,dictionary,easy,hanja])=>`<button data-glossary><strong>${esc(w)} <i>＋</i></strong><span class="glossary-detail">${hanja?`<small>한자로 살펴보기</small><em class="hanja">${esc(hanja)}</em>`:''}<small>낱말의 기본 뜻</small><em>${esc(dictionary)}</em><small>기사 속에서는</small><em>${esc(easy)}</em></span></button>`).join('')||'<p>별도 낱말 풀이가 없는 기사입니다.</p>')+`<p class="dictionary-source">낱말의 기본 뜻은 <a href="https://stdict.korean.go.kr/" target="_blank" rel="noopener">표준국어대사전</a>과 <a href="https://opendict.korean.go.kr/" target="_blank" rel="noopener">우리말샘</a>의 뜻풀이 방식을 참고하여 어린이용으로 풀어썼습니다.</p>`;
+  $('glossary').innerHTML=(c.glossary.map(([w,dictionary,easy,hanja,plain])=>`<button data-glossary><strong><b>${esc(w)}${esc(titleHanja(hanja))}</b><i>＋</i></strong><span class="glossary-detail"><small>낱말의 기본 뜻</small><em>${esc(dictionary)}</em><small>기사 속에서는</small><em>${esc(easy)}</em>${hanjaHTML(hanja,plain)}</span></button>`).join('')||'<p>별도 낱말 풀이가 없는 기사입니다.</p>')+`<p class="dictionary-source">낱말의 기본 뜻은 <a href="https://stdict.korean.go.kr/" target="_blank" rel="noopener">표준국어대사전</a>과 <a href="https://opendict.korean.go.kr/" target="_blank" rel="noopener">우리말샘</a>의 뜻풀이 방식을 참고하여 어린이용으로 풀어썼습니다.</p>`;
   $('training-question').textContent=`“${c.question}”을 학생에게 묻기 전에, 어떤 증거 낱말을 먼저 찾게 하면 좋을까요?`;
   renderTray();
 }

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
-import {DICTIONARY,HANJA} from './dictionary-data.mjs';
+import {DICTIONARY,HANJA,HANJA_PLAIN} from './dictionary-data.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'..');
@@ -63,7 +63,7 @@ function normalize(c,topic){
     evidence:[...new Set([...(c.evidence||[]),...Object.keys(c.evidenceCues||{}),...markerWords(paragraphs)])],
     glossary:(c.glossary||[]).map(([word,meaning])=>{
       if(!DICTIONARY[word])throw new Error(`Dictionary meaning missing: ${word}`);
-      return [word,DICTIONARY[word],meaning,HANJA[word]||''];
+      return [word,DICTIONARY[word],meaning,HANJA[word]||'',HANJA_PLAIN[word]||''];
     }),
     note:c.caution||c.note||'',
     sourceUrl,

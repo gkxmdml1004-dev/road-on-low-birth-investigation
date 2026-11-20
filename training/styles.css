@@ -12,7 +12,11 @@
 .glossary-panel button .glossary-detail{display:none;margin-top:10px;color:var(--muted);line-height:1.55}
 .glossary-detail small{display:block;margin-top:10px;color:#a34d2d;font-size:12px;font-weight:950;letter-spacing:.04em}
 .glossary-detail em{display:block;margin-top:3px;color:#455a56;font-style:normal}
-.glossary-detail .hanja{padding:6px 8px;border-radius:8px;background:#f3f5fb;color:#536483;font-family:inherit;font-size:12px;font-weight:700;line-height:1.45;letter-spacing:-.03em;word-break:keep-all}
+.hanja-card{display:grid!important;gap:3px;margin-top:4px!important;padding:7px 8px;border-radius:8px;background:#f3f5fb;color:#536483;font-family:inherit;line-height:1.35;word-break:keep-all}
+.hanja-card b{font-size:15px;color:#405273;font-weight:900}
+.hanja-card i{display:block;overflow-x:auto;color:#66748d;font-size:10px;font-style:normal;font-weight:700;letter-spacing:-.06em;white-space:nowrap;scrollbar-width:none}
+.hanja-card i::-webkit-scrollbar{display:none}
+.hanja-card em{margin-top:2px!important;color:#3f506f!important;font-size:12px;font-weight:850}
 .glossary-panel button.open .glossary-detail{display:block}
 .dictionary-source{margin:16px 2px 0;padding-top:13px;border-top:1px dashed #b9c7c3;color:#687773;font-size:12px;line-height:1.55}
 .dictionary-source a{color:#16615b;font-weight:850}

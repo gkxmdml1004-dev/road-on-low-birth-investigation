@@ -69,6 +69,7 @@ function normalize(c,topic){
     sourceUrl,
     sourceLabel:c.sourceTitle||source.label||c.publisher||'원문 기사',
     images,
+    clueWords:(c.clueKeywords||c.clues||[]).map(clue=>typeof clue==='string'?clue:clue.value).filter(Boolean),
     keyword:c.keyword||c.predictKeyword||'',
     question:c.question||c.predictionQuestion||'기사에서 어떤 사회 변화를 발견할 수 있을까요?'
   };

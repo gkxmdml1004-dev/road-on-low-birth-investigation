@@ -52,17 +52,7 @@ function renderTray(){
 }
 function caseClues(){
   const c=TRAINING_DATA[state.topic].cases[state.case];
-  const words=(c.keyword||'').split('·').map(w=>w.trim()).filter(Boolean);
-  for(const word of c.evidence||[]){
-    if(words.length>=2)break;
-    const compact=word.replace(/\s/g,'');
-    const overlaps=words.some(saved=>{
-      const prior=saved.replace(/\s/g,'');
-      return compact.includes(prior)||prior.includes(compact);
-    });
-    if(!overlaps)words.push(word);
-  }
-  return words.slice(0,2);
+  return [...(c.clueWords||[])];
 }
 function showCluePopup(){
   state.clues=caseClues();state.clueIndex=0;

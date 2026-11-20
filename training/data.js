@@ -71,6 +71,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://home.ebs.co.kr/ebsnews/menu1/newsAllView/60677389/H?eduNewsYn=N",
         "sourceLabel": "학교 합쳤더니 교실에 활력…체계적 지원은 과제",
         "images": [],
+        "clueWords": [
+          "피구 · 네 명",
+          "3 → 1"
+        ],
         "keyword": "",
         "question": "어떤 일이 있었을까요? 생각해 봅시다."
       },
@@ -139,6 +143,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://www.yna.co.kr/view/AKR20250304049300051",
         "sourceLabel": "부산 초등학교 1곳 신입생 없어…1곳은 나홀로 입학식",
         "images": [],
+        "clueWords": [
+          "신입생",
+          "도시"
+        ],
         "keyword": "",
         "question": "학교에 무엇이 없었을까요?"
       },
@@ -189,6 +197,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://www.gne.go.kr/user/bbs/BD_selectBbs.do?q_bbsDocNo=20250430134545397&q_bbsSn=1509",
         "sourceLabel": "함께라서 더 행복한, 작은학교 어울림 체육한마당",
         "images": [],
+        "clueWords": [
+          "작은 학교",
+          "약 350명"
+        ],
         "keyword": "",
         "question": "서로 다른 학교 학생들이 왜 한 운동장에 모였을까요?"
       }
@@ -256,6 +268,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://kostat.go.kr/board.es?act=view&bid=10820&list_no=438832&mid=a10301060100",
         "sourceLabel": "2025 고령자 통계",
         "images": [],
+        "clueWords": [
+          "고령인구",
+          "부산 시민 100명"
+        ],
         "keyword": "",
         "question": "과거보다 많아진 이 사람들은 누구일까요?"
       },
@@ -313,6 +329,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://news.seoul.go.kr/traffic/archives/512963",
         "sourceLabel": "횡단보도 보행신호 시간 연장 확대",
         "images": [],
+        "clueWords": [
+          "35초 → 40초",
+          "교통약자"
+        ],
         "keyword": "",
         "question": "횡단보도의 시간이 왜 달라졌을까요?"
       },
@@ -369,6 +389,10 @@ const TRAINING_DATA=[
         "sourceUrl": "https://www.lawissue.co.kr/view.php?ud=202309261600484699a8c8bf58f_12",
         "sourceLabel": "부산 기장읍 어르신 키오스크 체험교육",
         "images": [],
+        "clueWords": [
+          "식당 · 포기",
+          "나도 ○○"
+        ],
         "keyword": "",
         "question": "어르신들은 키오스크에 대한 두려움을 어떻게 줄였을까요?"
       }
@@ -425,6 +449,11 @@ const TRAINING_DATA=[
         "sourceUrl": "https://www.mk.co.kr/news/business/11351155",
         "sourceLabel": "한손 피자·한그릇 배달",
         "images": [],
+        "clueWords": [
+          "작은 피자",
+          "반 마리 치킨",
+          "소량 주문"
+        ],
         "keyword": "1인분",
         "question": "‘1인분’은 혼자 사는 사람의 식사와 어떻게 이어질까요?"
       },
@@ -473,6 +502,11 @@ const TRAINING_DATA=[
         "sourceUrl": "https://v.daum.net/v/20240623080326865",
         "sourceLabel": "소형 가전 인기",
         "images": [],
+        "clueWords": [
+          "작은 밥솥",
+          "245L 냉장고",
+          "공간 활용"
+        ],
         "keyword": "가전제품",
         "question": "‘가전제품’은 혼자 사는 생활과 어떻게 이어질까요?"
       },
@@ -522,6 +556,11 @@ const TRAINING_DATA=[
         "sourceUrl": "https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0300&key=20200110.99099004010",
         "sourceLabel": "우유 배달 안부 확인",
         "images": [],
+        "clueWords": [
+          "주 3회",
+          "안부 확인",
+          "주민센터"
+        ],
         "keyword": "쌓인 우유",
         "question": "‘쌓인 우유’는 이웃의 안부와 어떻게 이어질까요?"
       }
@@ -585,6 +624,11 @@ const TRAINING_DATA=[
             "caption": "반려견 유치원·호텔 돌봄 공간 · 사진 제공: 위드왈왈 / 스포츠동아"
           }
         ],
+        "clueWords": [
+          "등하교",
+          "유치원·호텔",
+          "돌봄"
+        ],
         "keyword": "알림장",
         "question": "‘알림장’은 반려견의 하루와 어떻게 이어질까요?"
       },
@@ -640,6 +684,11 @@ const TRAINING_DATA=[
             "caption": "부산 북항 반려견 장애물 축제 · 사진 제공: 부산 동구 / 중도일보"
           }
         ],
+        "clueWords": [
+          "장애물 코스",
+          "운동회",
+          "사진 부스"
+        ],
         "keyword": "장애물",
         "question": "‘장애물’은 반려견과 사람들의 어떤 활동과 이어질까요?"
       },
@@ -694,6 +743,11 @@ const TRAINING_DATA=[
             "alt": "2025년 부산 반려동물 돌봄 시민교육 안내 포스터",
             "caption": "2025년 부산 상반기 반려동물 돌봄 시민 대면교육 포스터 · 부산광역시"
           }
+        ],
+        "clueWords": [
+          "보호자",
+          "학교",
+          "돌봄 방법"
         ],
         "keyword": "보호자 · 학교",
         "question": "‘보호자’와 ‘학교’는 반려동물 생활과 어떻게 이어질까요?"
@@ -779,6 +833,11 @@ const TRAINING_DATA=[
             "caption": "홍천군 내면농협 하나로마트의 다문화 코너 · 사진=신하림 기자/강원일보"
           }
         ],
+        "clueWords": [
+          "농촌",
+          "외국인 근로자",
+          "다른 나라 식재료"
+        ],
         "keyword": "먹거리",
         "question": "함께 살아가는 사람들이 다양해지면서 마트에는 어떤 변화가 나타났나요?"
       },
@@ -845,6 +904,11 @@ const TRAINING_DATA=[
             "alt": "엄마 선생님과 함께하는 이집트 문화 체험",
             "caption": "엄마 선생님과 함께하는 이집트 문화 체험 · 사진=성남수정초등학교/중부일보"
           }
+        ],
+        "clueWords": [
+          "학부모 선생님",
+          "여러 나라 놀이",
+          "이집트"
         ],
         "keyword": "서로 배움",
         "question": "친구의 가족이 선생님으로 참여하면서 아이들은 무엇을 배울 수 있게 되었나요?"
@@ -925,6 +989,11 @@ const TRAINING_DATA=[
             "alt": "제21회 축제의 자장면 만들기 행사",
             "caption": "제21회 축제의 자장면 만들기 행사 · 사진=부산 동구 문화관광"
           }
+        ],
+        "clueWords": [
+          "사자춤",
+          "전통공연",
+          "자장면"
         ],
         "keyword": "함께 즐김",
         "question": "차이나타운의 문화는 부산 주민들이 함께 즐기는 축제에 어떻게 나타났나요?"

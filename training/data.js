@@ -144,6 +144,7 @@ const TRAINING_DATA=[
         "sourceLabel": "부산 초등학교 1곳 신입생 없어…1곳은 나홀로 입학식",
         "images": [],
         "clueWords": [
+          "○○○",
           "신입생",
           "도시"
         ],

@@ -84,7 +84,12 @@ const topics=[
 ].map(topic=>({
   slug:topic.slug,title:topic.title,color:topic.color,
   appUrl:`../${topic.folder}`,
-  cases:topic.cases.map(c=>normalize(c,topic))
+  cases:topic.cases.map((c,index)=>normalize(
+    topic.slug==='low-birth'&&index===1
+      ? {...c,clues:[{value:'○○○'},...(c.clues||[])]}
+      : c,
+    topic
+  ))
 }));
 
 fs.writeFileSync(path.join(here,'data.js'),`const TRAINING_DATA=${JSON.stringify(topics,null,2)};\n`,'utf8');

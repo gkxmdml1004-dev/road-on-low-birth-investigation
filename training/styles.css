@@ -31,3 +31,6 @@
 .clue-step{padding:9px 16px;border-radius:999px;background:color-mix(in srgb,var(--topic),#fff 76%);color:#364b47;font-weight:950}
 .clue-card strong{align-self:center;font-size:clamp(42px,7vw,82px);line-height:1.15;text-align:center;word-break:keep-all}
 .clue-card small{color:var(--muted);font-size:17px;font-weight:850}
+
+/* The training introduction supports the activity; it should not dominate it. */
+.hero h1{font-size:clamp(30px,3.4vw,52px)}

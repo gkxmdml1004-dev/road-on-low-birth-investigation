@@ -20,3 +20,14 @@
 .glossary-panel button.open .glossary-detail{display:block}
 .dictionary-source{margin:16px 2px 0;padding-top:13px;border-top:1px dashed #b9c7c3;color:#687773;font-size:12px;line-height:1.55}
 .dictionary-source a{color:#16615b;font-weight:850}
+
+/* Keep the article surface plain so the text remains the visual focus. */
+.newspaper{background:#fffefa;background-image:none}
+
+.clue-popup{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(18,47,43,.66);backdrop-filter:blur(5px)}
+.clue-popup[hidden]{display:none}
+.clue-card{display:grid;justify-items:center;gap:22px;width:min(620px,92vw);min-height:360px;padding:48px;border:4px solid var(--topic);border-radius:34px;background:#fffefa;box-shadow:0 24px 70px rgba(0,0,0,.28);color:var(--ink);font:inherit;cursor:pointer}
+.clue-card:hover{transform:translateY(-3px)}
+.clue-step{padding:9px 16px;border-radius:999px;background:color-mix(in srgb,var(--topic),#fff 76%);color:#364b47;font-weight:950}
+.clue-card strong{align-self:center;font-size:clamp(42px,7vw,82px);line-height:1.15;text-align:center;word-break:keep-all}
+.clue-card small{color:var(--muted);font-size:17px;font-weight:850}

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
+import {DICTIONARY,HANJA} from './dictionary-data.mjs';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'..');
@@ -45,16 +46,27 @@ function normalize(c,topic){
   const images=[];
   if(c.image)images.push({src:`../${topic.slug}/${c.image}`,alt:c.imageAlt||c.articleTitle||c.title,caption:c.imageCaption||''});
   for(const [src,caption] of c.photos||[])images.push({src:`../${topic.slug}/${src}`,alt:caption.split('·')[0].trim(),caption});
+  const sourceUrl=c.source||c.url||source.url||'';
+  const dateOverride={
+    'https://kostat.go.kr/board.es?act=view&bid=10820&list_no=438832&mid=a10301060100':'2025. 9. 29.',
+    'https://www.lawissue.co.kr/view.php?ud=202309261600484699a8c8bf58f_12':'2023. 9. 26.'
+  }[sourceUrl];
+  const rawDate=[c.date,c.meta,source.publisher].filter(Boolean).join(' · ');
+  const foundDates=rawDate.match(/\d{4}\s*[.년]\s*\d{1,2}\s*[.월]\s*\d{1,2}\s*[.일]?/g)||[];
   return {
     id:c.id||String(c.number||''),
     number:String(c.number||'').padStart(2,'0'),
     title:c.articleTitle||c.title,
     meta:c.meta||[c.publisher,c.date].filter(Boolean).join(' · ')||source.publisher||'',
+    articleDate:dateOverride||foundDates.join(' / ')||c.date||'날짜 확인 중',
     paragraphs,
     evidence:[...new Set([...(c.evidence||[]),...Object.keys(c.evidenceCues||{}),...markerWords(paragraphs)])],
-    glossary:(c.glossary||[]).map(([word,meaning])=>[word,meaning]),
+    glossary:(c.glossary||[]).map(([word,meaning])=>{
+      if(!DICTIONARY[word])throw new Error(`Dictionary meaning missing: ${word}`);
+      return [word,DICTIONARY[word],meaning,HANJA[word]||''];
+    }),
     note:c.caution||c.note||'',
-    sourceUrl:c.source||c.url||source.url||'',
+    sourceUrl,
     sourceLabel:c.sourceTitle||source.label||c.publisher||'원문 기사',
     images,
     keyword:c.keyword||c.predictKeyword||'',

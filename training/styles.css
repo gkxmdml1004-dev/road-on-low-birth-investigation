@@ -36,7 +36,7 @@
 .hero{gap:24px}
 .hero h1{font-size:clamp(30px,3vw,46px);white-space:nowrap}
 .hero p{max-width:980px;margin-top:15px;font-size:clamp(15px,1.35vw,19px);line-height:1.65}
-.hero-count{width:132px;height:132px;border-width:3px;box-shadow:0 5px 0 rgba(233,174,50,.22)}
+.hero-count{display:flex;flex-direction:column;justify-content:center;gap:2px;width:132px;height:132px;border-width:3px;box-shadow:0 5px 0 rgba(233,174,50,.22)}
 .hero-count strong{font-size:46px}
 .hero-count span{font-size:13px}
 @media(max-width:1100px){.hero h1{white-space:normal}}

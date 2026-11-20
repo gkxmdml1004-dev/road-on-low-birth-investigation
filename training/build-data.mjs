@@ -86,7 +86,7 @@ const topics=[
   appUrl:`../${topic.folder}`,
   cases:topic.cases.map((c,index)=>normalize(
     topic.slug==='low-birth'&&index===1
-      ? {...c,clues:[{value:'○○○'},...(c.clues||[])]}
+      ? {...c,clues:[{value:'신입생 한 명'},{value:'부산'}]}
       : c,
     topic
   ))
